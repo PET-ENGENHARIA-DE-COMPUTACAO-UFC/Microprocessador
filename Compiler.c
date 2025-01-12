@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include<ctype.h>
 
 // O que vamos fazer? ler um arquivo, ler o que tem dentro dele e comparar com os nossos OPCODES
 // Sinalização de instrução e parâmetros.
@@ -71,6 +72,41 @@ int binaryCheck(char *string)
     return -1;
 }
 
+//Função para remover os espaços em "branco"
+void eraser(char*string){
+    // índices para percorrer a string, sendo o índice i para a posição que está sendo verificada e j para a posição do último caractere válido
+    int i = 0; 
+    int j = 0; 
+
+    while (string[i] != '\0') {
+
+        if (!isspace((unsigned char)string[i])) {
+            // Se não for um espaço em branco, copiamos o caractere para a posição j
+            string[j] = string[i];
+            j++;
+        }
+
+        i++; // Avançar para o próximo caractere
+    }
+
+    // Adicionar o terminador de string '\0' após o último caractere válido
+    string[j] = '\0';
+}
+
+
+//Função para remover os comentários
+void remove_comments(char* string){
+    eraser(string);
+    char* find = strchr(string, '#'); // Encontra o primeiro '#'
+    if (find != NULL) {
+        *find = '\0'; // Substitui o '#' e tudo que vem depois por um terminador de string
+    }
+}
+
+/*int check_instructions(char* instruction){
+
+}*/
+
 struct OPCODE
 {
     char *code;     // OPCODE propriamente dito, o nosso codigo so que convertido para binário
@@ -113,12 +149,21 @@ int main()
     }
     else
     {
-        while (gts(CurrentLine, 10, instructions) != NULL) // CHECAGENS E ESCRITA EM BINARY
+        while (gts(CurrentLine, 100, instructions) != NULL) // CHECAGENS E ESCRITA EM BINARY
         {
+            remove_comments(CurrentLine);
+            printf("Line after removing comments: '%s'\n", CurrentLine);
 
+            if (strlen(CurrentLine) == 0) { // Ignora linhas vazias
+            continue;
+            }
             struct OPCODE code = comparator(CurrentLine); // Contêm a primeira frase
 
-            // COLOCAR AQUI A CHECAGEM DE SE FAZ PARTE DO NOSSO ASSEMBLY OU NAO A INSTRUÇÃO RECEBIDA
+            // CHECAGEM DE SE FAZ PARTE DO NOSSO ASSEMBLY OU NAO A INSTRUÇÃO RECEBIDA
+            if(code.code == NULL){
+                printf("Error! This instruction: %s is not a part of our assembly!\n", CurrentLine);
+                goto CompileError;
+            }
             int parameters = code.parameters;
             if (code.parameters > 0 && code.code != NULL) // Vê se a instrução espera algum parâmetro e se é uma instrução ou um parâmetro
             {
