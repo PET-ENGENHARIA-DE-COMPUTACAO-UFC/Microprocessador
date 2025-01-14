@@ -1,10 +1,6 @@
 module pcCounter(
   input wire clk,
-  output reg[4:0] PC);
-  
-  //memoria falsa apenas para testes:
-  reg[7:0] memoria[31:0];
-  
+  output reg[7:0] PC);
   
   initial begin
     PC <= 5'b00000; //depende do numero de endereços da memoria
