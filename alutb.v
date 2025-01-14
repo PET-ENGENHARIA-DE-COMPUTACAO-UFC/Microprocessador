@@ -15,25 +15,25 @@ module ALU_tb;
         #1;
 
         // Initialize inputs
-       /* src1 = 8'd0;
+        src1 = 8'd0;
         src2 = 8'd0;
-        ALU_sel = 8'b00000000; */
+        ALU_sel = 8'b00000000; 
 
         // Addition test: Addition
         #10 src1 = 8'd10; src2 = 8'd15; ALU_sel = 8'b00000001; // Add
         #10 if (result != 8'd25) $display("Addition test Failed");
 
-     /*  #10 src1 = 8'd0; src2 = 8'd15; ALU_sel = 8'b00000001; // Add
+        #10 src1 = 8'd0; src2 = 8'd15; ALU_sel = 8'b00000001; // Add
         #10 if (result != 8'd15) $display("Addition test Failed");
 
         #10 src1 = 8'd240; src2 = 8'd15; ALU_sel = 8'b00000001; // Add
         #10 if (result != 8'd255) $display("Addition test Failed");
 
         #10 src1 = 8'd255; src2 = 8'd1; ALU_sel = 8'b00000001; // Add
-        #10 if (result != 8'd0) $display("Addition test Failed"); */
+        #10 if (result != 8'd0) $display("Addition test Failed"); 
 
 
-      /*  // Subtraction test: Subtraction
+        // Subtraction test: Subtraction
         #10 src1 = 8'd20; src2 = 8'd5; ALU_sel = 8'b00000010; // Subtract
         #10 if (result != 8'd15) $display("Subtraction test Failed");
 
@@ -172,10 +172,28 @@ module ALU_tb;
         #10 if (result != 8'b11111111) $display("XOR test Failed");
 
         #10 src1 = 8'b11110000; src2 = 8'b11110000; ALU_sel = 8'b00010001; // XOR
-        #10 if (result != 8'b00000000) $display("XOR test Failed"); */
+        #10 if (result != 8'b00000000) $display("XOR test Failed"); 
+
+        // Addition test5: Rotate Left (ROL)
+        #10 src1 = 8'b10101010; src2 = 8'b00000000; ALU_sel = 8'b00010010; // ROL
+        #10 if (result != 8'b01010101) $display("ROL test Failed");
+
+        #10 src1 = 8'b00000001; src2 = 8'b00000000; ALU_sel = 8'b00010010; // ROL
+        #10 if (result != 8'b00000010) $display("ROL test Failed");
+
+
+        // Addition test5: Rotate Right (ROR)
+        #10 src1 = 8'b10101010; src2 = 8'b00000000; ALU_sel = 8'b00010011; // ROR
+        #10 if (result != 8'b01010101) $display("ROR test Failed");
+
+        #10 src1 = 8'b10000000; src2 = 8'b00000000; ALU_sel = 8'b00010011; // ROR
+        #10 if (result != 8'b01000000) $display("ROR test Failed");
+
+        #10 src1 = 8'b00000001; src2 = 8'b00000000; ALU_sel = 8'b00010011; // ROR
+        #10 if (result != 8'b10000000) $display("ROR test Failed");
 
 
         // Test complete
-        #10 $stop;
+        #10 $finish;
     end
 endmodule

@@ -170,7 +170,7 @@ ror ror_gate(
     .y(ror_result)
 );
 
-always@(operand1, operand2, ALU_sel) begin
+always@(*) begin
     case(ALU_sel)
 
     //Caso do somador
