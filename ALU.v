@@ -29,32 +29,56 @@ Flags[6] <= Overflow
 
 /*
 Para propósitos de teste faremos:
-soma <= 00000001
-subtração <= 00000010
-multiplicação <= 00000011
-divisão <= 00000100
-incremento <= 00000101
-decremento <= 00000110
-módulo <= 00000111
-shiftleft <= 00001000
-shiftright <= 00001001
-and <= 00001010
-nand <= 00001011
-nor <= 00001101
-not <= 00001110
-or <= 00001111
-xnor <= 00010000
-xor <= 00010001
-rol <= 00010010
-ror <= 00010011
+ADD <= 00000001
+SUB <= 00000010
+MULT <= 00000011
+DIV <= 00000100
+INC <= 00000101
+DEC <= 00000110
+MOD <= 00000111
+SL <= 00001000
+SR <= 00001001
+L_AND <= 00001010
+L_NAND <= 00001011
+L_NOR <= 00001101
+L_NOT <= 00001110
+L_OR <= 00001111
+L_XNOR <= 00010000
+L_XOR <= 00010001
+L_ROL <= 00010010
+L_ROR <= 00010011
 
 */
 
-module ALU(input[7:0]operand1, input[7:0]operand2, input clk, output reg[7:0]operation_result, input[7:0] ALU_sel, output reg[6:0]Flags);
+module ALU(input[7:0]operand1, input[7:0]operand2, input clk, output reg[7:0]operation_result, input[7:0] ALU_sel, output reg[6:0]Flags, output reg eq, gt, lt);
+
 wire[7:0] add_result, sub_result, increment_result, decrement_result, mod_result, mult_result, div_result, sr_result, sl_result;
+
 wire[7:0] and_result, nand_result, nor_result, not_result, or_result, xnor_result, xor_result, rol_result, ror_result;
 wire add_carry, sub_carry, inc_carry, dec_carry;
+
 wire[7:0]div_rest;
+
+localparam 
+ADD = 00000011,
+SUB = 00000100,
+MULT = 00000101,
+DIV = 00000110,
+INC = 00010000,
+DEC = 00010010,
+MOD = 00000111,
+SL = 00010100,
+SR = 00010101,
+L_AND = 00001000,
+L_NAND = 00001110,
+L_NOR = 00001101,
+L_NOT = 00001010,
+L_OR = 00001001,
+L_XNOR = 00001111,
+L_XOR = 00010001,
+L_ROL = 00010110,
+L_ROR = 00010111,
+CMP = 8'b00011000;
 
 //Somador
 full_adder8b adder (
@@ -174,7 +198,7 @@ always@(*) begin
     case(ALU_sel)
 
     //Caso do somador
-    8'b00000001: begin //Soma
+    ADD: begin //Soma
         operation_result <= add_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= add_carry;
@@ -183,10 +207,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand1[7] == operand2[7]) && (operand1[7] != operation_result[7]);
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do subtrator
-    8'b00000010: begin
+    SUB: begin
         operation_result <= sub_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= sub_carry;
@@ -195,10 +222,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand1[7] != operand2[7]) && (operand1[7] == operation_result[7]);
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do incremento em 1
-    8'b00000101: begin
+    INC: begin
         operation_result <= increment_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= inc_carry;
@@ -207,10 +237,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand1[7] == operand2[7]) && (operand1[7] != operation_result[7]);
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do decremento em 1
-    8'b00000110: begin
+    DEC: begin
         operation_result <= decrement_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= dec_carry;
@@ -219,10 +252,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand1[7] != operand2[7]) && (operand1[7] == operation_result[7]);
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do multiplicador
-    8'b00000011: begin
+    MULT: begin
         operation_result <= mult_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -231,10 +267,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand1[7] == operand2[7]) && (operand1[7] != operation_result[7]);
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do divisor
-    8'b00000100: begin
+    DIV: begin
         operation_result <= div_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -243,10 +282,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand2 == 0) ? 1 : 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do cálculo do resto da divisão
-    8'b00000111: begin
+    MOD: begin
         operation_result <= mod_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -255,10 +297,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand2 == 0) ? 1 : 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do shift left
-    8'b00001000: begin
+    SL: begin
         operation_result <= sl_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= operand1[7];
@@ -267,10 +312,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 1;
         Flags[6] <= (operand1[7] != operation_result[7]);
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do shift right
-    8'b00001001: begin
+    SR: begin
         operation_result <= sr_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= operand1[0];
@@ -279,10 +327,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do E lógico
-    8'b00001010: begin
+    L_AND: begin
         operation_result <= and_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -291,10 +342,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do E negado lógico
-    8'b00001011: begin
+    L_NAND: begin
         operation_result <= nand_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -303,10 +357,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do Ou negado lógico
-    8'b00001101: begin
+    L_OR: begin
         operation_result <= nor_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -315,10 +372,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso da negação lógica
-    8'b00001110: begin
+    L_NOT: begin
         operation_result <= not_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -327,10 +387,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
-    //Caso do Ou lógico
-    8'b00001111: begin
+    //Caso do E lógico
+    L_OR: begin
         operation_result <= or_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -339,10 +402,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do Ou negado exclusivo lógico
-    8'b00010000: begin
+    L_XNOR: begin
         operation_result <= xnor_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -351,10 +417,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso do Ou exclusivo lógico
-    8'b00010001: begin
+    L_XOR: begin
         operation_result <= xor_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -363,10 +432,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
     end
 
     //Caso de Rolar à esquerda
-    8'b00010010: begin
+    SL: begin
         operation_result <= rol_result;
         Flags[0] <= (operation_result == 8'b0) ? 1'b1 : 1'b0;
         Flags[1] <= operand1[7];
@@ -375,10 +447,13 @@ always@(*) begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
+        eq = 0;
+        gt = 0; 
+        lt = 0;
 end
 
     //Caso de rolar à direita
-    8'b00010011: begin
+    SR: begin
     operation_result <= ror_result;
     Flags[0] <= (operation_result == 8'b0) ? 1'b1 : 1'b0;
     Flags[1] <= operand1[0];
@@ -387,7 +462,42 @@ end
     Flags[4] <= 0;
     Flags[5] <= 0;
     Flags[6] <= 0;
+    eq = 0;
+        gt = 0; 
+        lt = 0;
 end
+
+    CMP: begin
+    operation_result <= sub_result;
+    Flags[0] <= (operation_result == 0) ? 1 : 0;
+    Flags[1] <= sub_carry;
+    Flags[2] <= operation_result[7];
+    Flags[3] <= (operation_result[0] ^ operation_result[1] ^ operation_result[2] ^ operation_result[3] ^ operation_result[4] ^ operation_result[5] ^ operation_result[6] ^ operation_result[7]) ? 0 : 1;
+    Flags[4] <= 0;
+    Flags[5] <= 0;
+    Flags[6] <= (operand1[7] != operand2[7]) && (operand1[7] == operation_result[7]);
+
+    if(!Flags[0]) begin
+        eq = 1;
+    end
+    else begin
+        eq = 0;
+    end
+    if(!Flags[0] && !Flags[2] && !Flags[6]) begin
+        gt = 1;
+    end
+    else begin
+        gt = 0;
+    end
+    if(Flags[2] ^ Flags[6]) begin
+        lt = 1;
+    end
+    else begin
+        lt = 0;
+    end
+    
+
+    end
 
     default: begin
         operation_result <= 8'b00000000;

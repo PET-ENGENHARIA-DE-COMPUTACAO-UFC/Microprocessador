@@ -3,6 +3,7 @@
 `include "instructionRegister.v"
 `include "MAR.v"
 `include "pcCounter.v"
+`include "registerFile.v"
 module DataPath(input clk, input rst);
 
 wire [7:0]ProgramCounter_position; wire[7:0]MAR_instruction; 
@@ -56,9 +57,29 @@ wire [7:0]ProgramCounter_position; wire[7:0]MAR_instruction;
     Código do Register File -> Feito
     */
 
+    registerFile RegisterFile(
+        .clk(clk),
+        .A1(),
+        .A2(),
+        .A3(),
+        .WriteData(),
+        .regWriteEnable(),
+        .RD1(),
+        .RD2()
+    );
+
     /*
     ALU -> Feito
     */
+
+    ALU ArithmeticLogicUnit(
+        .operand1(),
+        .operand2(),
+        .clk(),
+        .operation_result(),
+        .ALU_sel(),
+        .Flags()
+    );
 
 
 endmodule

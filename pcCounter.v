@@ -1,13 +1,17 @@
 module pcCounter(
-  input wire clk,
-  input wire rst,
+  input wire PC_load,
+  input wire PC_inc,
   output reg[7:0] PC);
   
-  always @(posedge clk) begin
-    if(rst)
-    PC <= 5'b00000;
-    else
-    PC <= PC + 5'b00001;
+  always @(*) begin
+    if(PC_inc)begin
+    PC <= PC + 1'b1;
+    end
+    else begin
+    PC <= PC_load;
+    end
+
+
   end
 endmodule
     
