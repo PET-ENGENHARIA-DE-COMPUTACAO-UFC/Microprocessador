@@ -9,7 +9,7 @@ module RegisterFile(input wire clk,
                     output reg [7:0] RD2);	//dados de saida
   
   //extensão da memoria apenas para registradores
-  reg[7:0] registers [31:0];
+  reg[7:0] registers[31:0];
   
   
   

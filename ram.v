@@ -4,28 +4,27 @@ module ram
   parameter data_size = 8
 )
 (
-  input clk,
-  input rst,
-  
-  
-  input write_en,
-  input [addr_size-1:0]write_adress,
-  input [data_size-1:0]data_in,
-  
-  input rd_en,
-  input [addr_size-1:0]rd_adress,
-  output reg [data_size-1:0]data_out
+  input wire clk,
+  input wire rst,
+
+  input wire write_en,
+  input wire [addr_size-1:0] write_adress,
+  input wire [data_size-1:0] data_in,
+
+  input wire rd_en,
+  input wire [addr_size-1:0] rd_adress,
+  output reg [data_size-1:0] data_out
 );
 
 
 //Declaração da Memória:
 
-  reg[data_size-1:0] ram[255:0];
+reg[7:0] ram [255:0];
 
 always@(posedge clk)
   begin
     if(rst)
-      ram[write_adress]<= 'bz;
+      ram[write_adress]<= 0;
     else
       begin 
         if(write_en)

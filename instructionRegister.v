@@ -5,8 +5,7 @@ module InstructionRegister(
   input wire [7:0] operando1,
   input wire [7:0] operando2,
   output reg [23:0] instReg,
-  output reg[1:0] fullRegFlag
-);
+  output reg ReadyFlag);
 
   parameter delay = 2;
   reg [2:0] counter;
@@ -14,7 +13,7 @@ module InstructionRegister(
   // Inicialização do contador
   initial begin
     counter = 0;
-    fullRegFlag = 1'b0;
+    ReadyFlag = 0;
   end
 
   // Lógica síncrona com delay
@@ -24,7 +23,7 @@ module InstructionRegister(
       counter <= counter + 1;
     end else begin
       instReg <= {opcode, operando1, operando2};
-      fullRegFlag = 1'b1;
+      ReadyFlag =1;
     end
     end
   end

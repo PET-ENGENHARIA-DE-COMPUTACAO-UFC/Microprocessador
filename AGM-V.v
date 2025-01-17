@@ -106,7 +106,7 @@ RegisterFile RF(
     .WriteData(write_data_wire),
     .regWriteEnable(regWriteEnable_wire),
     .regReadEnable(regReadEnable_wire),
-    .RD1(IR_opcode_wire), //Deverão ser truncados        RD1 RD2 ADR_2
+    .RD1(IR_opcode_wire),
     .RD2(command_word_wire[15:8])
 );
 
