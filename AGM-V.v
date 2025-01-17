@@ -1,4 +1,5 @@
 `include "ControlUnit.v"
+`include "temporizador.v"
 `include "ALU.v"
 `include "RAM.v"
 `include "pcCounter.v"
@@ -6,7 +7,7 @@
 `include "instructionRegister.v"
 `include "registerFile.v"
 module processor();
-wire clk, rst; //Fios de clock e reset
+wire clk, rst, clk_in; //Fios de clock e reset
 wire [7:0]PC_load_wire; //Fio do sinal de PC load
 wire PC_inc_wire, PC_en_wire; //Fios de incremento do PC e enable do PC
 wire MAR_load; //Fio de "enable" do MAR
@@ -26,6 +27,8 @@ wire [7:0]IR_operand1_wire; //Fio da instrução lida pelo MAR
 wire [7:0]IR_operand2_wire; //Fio da instrução lida pelo MAR
 wire [2:0]compare_result_wire; //Fio da instrução lida pelo MAR
 wire [6:0]flag_wire; //Fio da instrução lida pelo MAR
+
+//timer tmp(.clk_out(clk), .clk_in(clk_in),.rst(rst));
 
 ControlUnit UC(
     .command_word(command_word_wire),
