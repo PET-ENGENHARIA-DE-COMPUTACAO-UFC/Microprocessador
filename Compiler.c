@@ -126,19 +126,19 @@ struct OPCODE comparator(char *buffer)
     if(strcmp(buffer, "STR_IMM") == 0)
     {
         opcode.code = "00000001";
-        opcode.parameters = 1;
+        opcode.parameters = 2;
         return opcode;
     }
     else if(strcmp(buffer, "STR_DIR") == 0)
     {
         opcode.code = "00000010";
-        opcode.parameters = 1;
+        opcode.parameters = 2;
         return opcode;
     }
     else if(strcmp(buffer,"LOA_IMM") == 0)
     {
         opcode.code = "00011000";
-        opcode.parameters = 1;
+        opcode.parameters = 2;
         return opcode;
     }
     else if(strcmp(buffer, "LOA_DIR") == 0)
@@ -278,8 +278,8 @@ struct OPCODE comparator(char *buffer)
 
 int main()
 {
-    FILE *instructions = fopen("instructions.txt", "r");
-    FILE *binary = fopen("binary.txt", "w");
+    FILE *instructions = fopen("C:\\Users\\matri\\Documents\\4_semestre\\Microprocessadores\\Projeto\\Microprocessador\\instructions.txt", "r");    
+    FILE *binary = fopen("C:\\Users\\matri\\Documents\\4_semestre\\Microprocessadores\\Projeto\\Microprocessador\\binary.txt", "w");
     char *CurrentLine = malloc(100 * sizeof(char));
 
     if (instructions == NULL)
@@ -294,7 +294,7 @@ int main()
             printf("Line after removing comments: '%s'\n", CurrentLine);
 
             if (strlen(CurrentLine) == 0) { // Ignora linhas vazias
-            continue;
+                continue;
             }
             struct OPCODE code = comparator(CurrentLine); // Contêm a primeira frase
 

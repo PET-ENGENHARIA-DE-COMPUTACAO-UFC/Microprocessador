@@ -14,11 +14,7 @@ module ram
   
   input rd_en,
   input [addr_size-1:0]rd_adress,
-<<<<<<< HEAD
-  out reg [data_size-1:0]data_out,
-=======
   output reg [data_size-1:0]data_out
->>>>>>> origin/Hubert
 );
 
 
@@ -34,11 +30,7 @@ always@(posedge clk)
       begin 
         if(write_en)
           ram[write_adress] <= data_in;
-<<<<<<< HEAD
-        if(read_en)
-=======
         if(rd_en)
->>>>>>> origin/Hubert
           data_out <= ram[rd_adress];
       end
   end
