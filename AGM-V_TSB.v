@@ -71,7 +71,7 @@ end
 initial begin
     $monitor(
         "Time: %0dns | rst: %b | clk: %b | A: %b | B: %b | C: %b | memoria aleatoria: %b", 
-        $time, rst, clk, registers.read_memory(00000) ,DUT.registers.read_memory(00001), DUT.registers.read_memory(00010), DUT.RandomAcessMemory[00000000]
+        $time, rst, clk, registers[00000] ,registers[00001], registers[00010], DUT.RandomAcessMemory[00000000]
     );
 end
 

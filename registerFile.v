@@ -30,10 +30,5 @@ else begin
 end
 end
 
-task read_memory(input reg [4:0] adr, output reg [7:0] content);
-    begin
-        content = registers[adr]; // Usar atribuição bloqueante para evitar problemas de concorrência
-    end
-endtask
 
 endmodule

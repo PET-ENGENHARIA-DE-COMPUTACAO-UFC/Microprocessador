@@ -34,8 +34,4 @@ always@(posedge clk)
           data_out <= ram[rd_adress];
       end
   end
-
-      task init_memory(input [7:0] address, input [7:0] data);
-        ram[address] = data;
-    endtask
 endmodule
