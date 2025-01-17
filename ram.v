@@ -14,7 +14,7 @@ module ram
   
   input rd_en,
   input [addr_size-1:0]rd_adress,
-  out reg [data_size-1:0]data_out,
+  output reg [data_size-1:0]data_out
 );
 
 
@@ -30,7 +30,7 @@ always@(posedge clk)
       begin 
         if(write_en)
           ram[write_adress] <= data_in;
-        if(read_en)
+        if(rd_en)
           data_out <= ram[rd_adress];
       end
   end

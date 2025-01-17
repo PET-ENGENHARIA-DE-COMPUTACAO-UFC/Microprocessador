@@ -1,0 +1,442 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "C:\Users\gabme\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\Users\gabme\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\Users\gabme\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\Users\gabme\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\Users\gabme\iverilog\lib\ivl\va_math.vpi";
+S_000001c38a47a120 .scope module, "decrement8b" "decrement8b" 2 4;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 8 "result";
+    .port_info 1 /OUTPUT 1 "cout";
+    .port_info 2 /INPUT 8 "num1";
+v000001c38a500e40_0 .net "cout", 0 0, L_000001c38a5781c0;  1 drivers
+o000001c38a4a23e8 .functor BUFZ 8, C4<zzzzzzzz>; HiZ drive
+v000001c38a5024c0_0 .net "num1", 7 0, o000001c38a4a23e8;  0 drivers
+v000001c38a500f80_0 .net "result", 7 0, L_000001c38a501e80;  1 drivers
+S_000001c38a47a2b0 .scope module, "FULL_SUBTRACTOR8bDEC" "full_subtractor8b" 2 5, 3 23 0, S_000001c38a47a120;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 8 "csub";
+    .port_info 1 /OUTPUT 1 "c_outc";
+    .port_info 2 /INPUT 8 "numf1";
+    .port_info 3 /INPUT 8 "numf2";
+v000001c38a4fe860_0 .net "c_outc", 0 0, L_000001c38a5781c0;  alias, 1 drivers
+v000001c38a4fe900_0 .net "cin1", 0 0, L_000001c38a504990;  1 drivers
+v000001c38a501160_0 .net "csub", 7 0, L_000001c38a501e80;  alias, 1 drivers
+v000001c38a502880_0 .net "numf1", 7 0, o000001c38a4a23e8;  alias, 0 drivers
+L_000001c38a5300d0 .functor BUFT 1, C4<00000001>, C4<0>, C4<0>, C4<0>;
+v000001c38a501340_0 .net "numf2", 7 0, L_000001c38a5300d0;  1 drivers
+L_000001c38a5012a0 .part o000001c38a4a23e8, 0, 4;
+L_000001c38a502060 .part L_000001c38a5300d0, 0, 4;
+L_000001c38a501e80 .concat8 [ 4 4 0 0], L_000001c38a5021a0, L_000001c38a5015c0;
+L_000001c38a5013e0 .part o000001c38a4a23e8, 4, 4;
+L_000001c38a501de0 .part L_000001c38a5300d0, 4, 4;
+S_000001c38a42cf90 .scope module, "FULL_SUBTRACTOR4b1" "full_subtractor4b" 3 25, 3 15 0, S_000001c38a47a2b0;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 4 "csub";
+    .port_info 1 /OUTPUT 1 "c_outc";
+    .port_info 2 /INPUT 4 "numf1";
+    .port_info 3 /INPUT 4 "numf2";
+    .port_info 4 /INPUT 1 "c_in";
+L_000001c38a530088 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v000001c38a4f9250_0 .net "c_in", 0 0, L_000001c38a530088;  1 drivers
+v000001c38a4f9610_0 .net "c_outc", 0 0, L_000001c38a504990;  alias, 1 drivers
+v000001c38a4fa330_0 .net "cin1", 0 0, L_000001c38a499730;  1 drivers
+v000001c38a4f8f30_0 .net "cin2", 0 0, L_000001c38a499dc0;  1 drivers
+v000001c38a4f92f0_0 .net "cin3", 0 0, L_000001c38a503f10;  1 drivers
+v000001c38a4fa790_0 .net "csub", 3 0, L_000001c38a5021a0;  1 drivers
+v000001c38a4f9e30_0 .net "numf1", 3 0, L_000001c38a5012a0;  1 drivers
+v000001c38a4fa8d0_0 .net "numf2", 3 0, L_000001c38a502060;  1 drivers
+L_000001c38a501200 .part L_000001c38a5012a0, 0, 1;
+L_000001c38a502240 .part L_000001c38a502060, 0, 1;
+L_000001c38a5017a0 .part L_000001c38a5012a0, 1, 1;
+L_000001c38a502740 .part L_000001c38a502060, 1, 1;
+L_000001c38a501520 .part L_000001c38a5012a0, 2, 1;
+L_000001c38a502560 .part L_000001c38a502060, 2, 1;
+L_000001c38a5021a0 .concat8 [ 1 1 1 1], L_000001c38a4996c0, L_000001c38a499c70, L_000001c38a4998f0, L_000001c38a5048b0;
+L_000001c38a500ee0 .part L_000001c38a5012a0, 3, 1;
+L_000001c38a502a60 .part L_000001c38a502060, 3, 1;
+S_000001c38a42d120 .scope module, "FULL_SUBTRACTOR1" "full_subtractor" 3 17, 3 8 0, S_000001c38a42cf90;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_outc";
+    .port_info 1 /OUTPUT 1 "csub";
+    .port_info 2 /INPUT 1 "numf1";
+    .port_info 3 /INPUT 1 "numf2";
+    .port_info 4 /INPUT 1 "c_in";
+L_000001c38a499730 .functor OR 1, L_000001c38a49a060, L_000001c38a49a530, C4<0>, C4<0>;
+v000001c38a494be0_0 .net "aux_out", 0 0, L_000001c38a49a530;  1 drivers
+v000001c38a48d290_0 .net "aux_out2", 0 0, L_000001c38a49a060;  1 drivers
+v000001c38a4f6840_0 .net "aux_sub", 0 0, L_000001c38a499ea0;  1 drivers
+v000001c38a4f7f60_0 .net "c_in", 0 0, L_000001c38a530088;  alias, 1 drivers
+v000001c38a4f7920_0 .net "c_outc", 0 0, L_000001c38a499730;  alias, 1 drivers
+v000001c38a4f6de0_0 .net "csub", 0 0, L_000001c38a4996c0;  1 drivers
+v000001c38a4f7060_0 .net "numf1", 0 0, L_000001c38a501200;  1 drivers
+v000001c38a4f6ca0_0 .net "numf2", 0 0, L_000001c38a502240;  1 drivers
+S_000001c38a4752f0 .scope module, "HALF_SUBTRACTOR1" "half_subtractor" 3 10, 3 3 0, S_000001c38a42d120;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a499ea0 .functor XOR 1, L_000001c38a501200, L_000001c38a502240, C4<0>, C4<0>;
+L_000001c38a499d50 .functor NOT 1, L_000001c38a501200, C4<0>, C4<0>, C4<0>;
+L_000001c38a49a530 .functor AND 1, L_000001c38a499d50, L_000001c38a502240, C4<1>, C4<1>;
+v000001c38a495e00_0 .net *"_ivl_2", 0 0, L_000001c38a499d50;  1 drivers
+v000001c38a494460_0 .net "c_out", 0 0, L_000001c38a49a530;  alias, 1 drivers
+v000001c38a495fe0_0 .net "num1", 0 0, L_000001c38a501200;  alias, 1 drivers
+v000001c38a496080_0 .net "num2", 0 0, L_000001c38a502240;  alias, 1 drivers
+v000001c38a494500_0 .net "sub", 0 0, L_000001c38a499ea0;  alias, 1 drivers
+S_000001c38a475480 .scope module, "HALF_SUBTRACTOR2" "half_subtractor" 3 11, 3 3 0, S_000001c38a42d120;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a4996c0 .functor XOR 1, L_000001c38a499ea0, L_000001c38a530088, C4<0>, C4<0>;
+L_000001c38a499b90 .functor NOT 1, L_000001c38a499ea0, C4<0>, C4<0>, C4<0>;
+L_000001c38a49a060 .functor AND 1, L_000001c38a499b90, L_000001c38a530088, C4<1>, C4<1>;
+v000001c38a494640_0 .net *"_ivl_2", 0 0, L_000001c38a499b90;  1 drivers
+v000001c38a4946e0_0 .net "c_out", 0 0, L_000001c38a49a060;  alias, 1 drivers
+v000001c38a494a00_0 .net "num1", 0 0, L_000001c38a499ea0;  alias, 1 drivers
+v000001c38a494aa0_0 .net "num2", 0 0, L_000001c38a530088;  alias, 1 drivers
+v000001c38a494b40_0 .net "sub", 0 0, L_000001c38a4996c0;  alias, 1 drivers
+S_000001c38a442550 .scope module, "FULL_SUBTRACTOR2" "full_subtractor" 3 18, 3 8 0, S_000001c38a42cf90;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_outc";
+    .port_info 1 /OUTPUT 1 "csub";
+    .port_info 2 /INPUT 1 "numf1";
+    .port_info 3 /INPUT 1 "numf2";
+    .port_info 4 /INPUT 1 "c_in";
+L_000001c38a499dc0 .functor OR 1, L_000001c38a49a140, L_000001c38a4997a0, C4<0>, C4<0>;
+v000001c38a4f7ec0_0 .net "aux_out", 0 0, L_000001c38a4997a0;  1 drivers
+v000001c38a4f7600_0 .net "aux_out2", 0 0, L_000001c38a49a140;  1 drivers
+v000001c38a4f7e20_0 .net "aux_sub", 0 0, L_000001c38a499c00;  1 drivers
+v000001c38a4f65c0_0 .net "c_in", 0 0, L_000001c38a499730;  alias, 1 drivers
+v000001c38a4f6340_0 .net "c_outc", 0 0, L_000001c38a499dc0;  alias, 1 drivers
+v000001c38a4f7b00_0 .net "csub", 0 0, L_000001c38a499c70;  1 drivers
+v000001c38a4f6700_0 .net "numf1", 0 0, L_000001c38a5017a0;  1 drivers
+v000001c38a4f7880_0 .net "numf2", 0 0, L_000001c38a502740;  1 drivers
+S_000001c38a4426e0 .scope module, "HALF_SUBTRACTOR1" "half_subtractor" 3 10, 3 3 0, S_000001c38a442550;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a499c00 .functor XOR 1, L_000001c38a5017a0, L_000001c38a502740, C4<0>, C4<0>;
+L_000001c38a499880 .functor NOT 1, L_000001c38a5017a0, C4<0>, C4<0>, C4<0>;
+L_000001c38a4997a0 .functor AND 1, L_000001c38a499880, L_000001c38a502740, C4<1>, C4<1>;
+v000001c38a4f62a0_0 .net *"_ivl_2", 0 0, L_000001c38a499880;  1 drivers
+v000001c38a4f7a60_0 .net "c_out", 0 0, L_000001c38a4997a0;  alias, 1 drivers
+v000001c38a4f74c0_0 .net "num1", 0 0, L_000001c38a5017a0;  alias, 1 drivers
+v000001c38a4f7560_0 .net "num2", 0 0, L_000001c38a502740;  alias, 1 drivers
+v000001c38a4f60c0_0 .net "sub", 0 0, L_000001c38a499c00;  alias, 1 drivers
+S_000001c38a442870 .scope module, "HALF_SUBTRACTOR2" "half_subtractor" 3 11, 3 3 0, S_000001c38a442550;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a499c70 .functor XOR 1, L_000001c38a499c00, L_000001c38a499730, C4<0>, C4<0>;
+L_000001c38a49a0d0 .functor NOT 1, L_000001c38a499c00, C4<0>, C4<0>, C4<0>;
+L_000001c38a49a140 .functor AND 1, L_000001c38a49a0d0, L_000001c38a499730, C4<1>, C4<1>;
+v000001c38a4f76a0_0 .net *"_ivl_2", 0 0, L_000001c38a49a0d0;  1 drivers
+v000001c38a4f68e0_0 .net "c_out", 0 0, L_000001c38a49a140;  alias, 1 drivers
+v000001c38a4f6fc0_0 .net "num1", 0 0, L_000001c38a499c00;  alias, 1 drivers
+v000001c38a4f77e0_0 .net "num2", 0 0, L_000001c38a499730;  alias, 1 drivers
+v000001c38a4f6ac0_0 .net "sub", 0 0, L_000001c38a499c70;  alias, 1 drivers
+S_000001c38a4f8080 .scope module, "FULL_SUBTRACTOR3" "full_subtractor" 3 19, 3 8 0, S_000001c38a42cf90;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_outc";
+    .port_info 1 /OUTPUT 1 "csub";
+    .port_info 2 /INPUT 1 "numf1";
+    .port_info 3 /INPUT 1 "numf2";
+    .port_info 4 /INPUT 1 "c_in";
+L_000001c38a503f10 .functor OR 1, L_000001c38a504450, L_000001c38a49a290, C4<0>, C4<0>;
+v000001c38a4f6160_0 .net "aux_out", 0 0, L_000001c38a49a290;  1 drivers
+v000001c38a4f6480_0 .net "aux_out2", 0 0, L_000001c38a504450;  1 drivers
+v000001c38a4f71a0_0 .net "aux_sub", 0 0, L_000001c38a499810;  1 drivers
+v000001c38a4f7c40_0 .net "c_in", 0 0, L_000001c38a499dc0;  alias, 1 drivers
+v000001c38a4f6520_0 .net "c_outc", 0 0, L_000001c38a503f10;  alias, 1 drivers
+v000001c38a4f6980_0 .net "csub", 0 0, L_000001c38a4998f0;  1 drivers
+v000001c38a4f7420_0 .net "numf1", 0 0, L_000001c38a501520;  1 drivers
+v000001c38a4f67a0_0 .net "numf2", 0 0, L_000001c38a502560;  1 drivers
+S_000001c38a4f8210 .scope module, "HALF_SUBTRACTOR1" "half_subtractor" 3 10, 3 3 0, S_000001c38a4f8080;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a499810 .functor XOR 1, L_000001c38a501520, L_000001c38a502560, C4<0>, C4<0>;
+L_000001c38a49a220 .functor NOT 1, L_000001c38a501520, C4<0>, C4<0>, C4<0>;
+L_000001c38a49a290 .functor AND 1, L_000001c38a49a220, L_000001c38a502560, C4<1>, C4<1>;
+v000001c38a4f6e80_0 .net *"_ivl_2", 0 0, L_000001c38a49a220;  1 drivers
+v000001c38a4f6200_0 .net "c_out", 0 0, L_000001c38a49a290;  alias, 1 drivers
+v000001c38a4f79c0_0 .net "num1", 0 0, L_000001c38a501520;  alias, 1 drivers
+v000001c38a4f63e0_0 .net "num2", 0 0, L_000001c38a502560;  alias, 1 drivers
+v000001c38a4f7240_0 .net "sub", 0 0, L_000001c38a499810;  alias, 1 drivers
+S_000001c38a4f83a0 .scope module, "HALF_SUBTRACTOR2" "half_subtractor" 3 11, 3 3 0, S_000001c38a4f8080;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a4998f0 .functor XOR 1, L_000001c38a499810, L_000001c38a499dc0, C4<0>, C4<0>;
+L_000001c38a4999d0 .functor NOT 1, L_000001c38a499810, C4<0>, C4<0>, C4<0>;
+L_000001c38a504450 .functor AND 1, L_000001c38a4999d0, L_000001c38a499dc0, C4<1>, C4<1>;
+v000001c38a4f7100_0 .net *"_ivl_2", 0 0, L_000001c38a4999d0;  1 drivers
+v000001c38a4f7d80_0 .net "c_out", 0 0, L_000001c38a504450;  alias, 1 drivers
+v000001c38a4f6b60_0 .net "num1", 0 0, L_000001c38a499810;  alias, 1 drivers
+v000001c38a4f7ba0_0 .net "num2", 0 0, L_000001c38a499dc0;  alias, 1 drivers
+v000001c38a4f6660_0 .net "sub", 0 0, L_000001c38a4998f0;  alias, 1 drivers
+S_000001c38a4f8530 .scope module, "FULL_SUBTRACTOR4" "full_subtractor" 3 20, 3 8 0, S_000001c38a42cf90;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_outc";
+    .port_info 1 /OUTPUT 1 "csub";
+    .port_info 2 /INPUT 1 "numf1";
+    .port_info 3 /INPUT 1 "numf2";
+    .port_info 4 /INPUT 1 "c_in";
+L_000001c38a504990 .functor OR 1, L_000001c38a504ca0, L_000001c38a504370, C4<0>, C4<0>;
+v000001c38a4fa150_0 .net "aux_out", 0 0, L_000001c38a504370;  1 drivers
+v000001c38a4fa6f0_0 .net "aux_out2", 0 0, L_000001c38a504ca0;  1 drivers
+v000001c38a4f9bb0_0 .net "aux_sub", 0 0, L_000001c38a504610;  1 drivers
+v000001c38a4fa290_0 .net "c_in", 0 0, L_000001c38a503f10;  alias, 1 drivers
+v000001c38a4fa650_0 .net "c_outc", 0 0, L_000001c38a504990;  alias, 1 drivers
+v000001c38a4fa470_0 .net "csub", 0 0, L_000001c38a5048b0;  1 drivers
+v000001c38a4fa830_0 .net "numf1", 0 0, L_000001c38a500ee0;  1 drivers
+v000001c38a4f8cb0_0 .net "numf2", 0 0, L_000001c38a502a60;  1 drivers
+S_000001c38a4f86c0 .scope module, "HALF_SUBTRACTOR1" "half_subtractor" 3 10, 3 3 0, S_000001c38a4f8530;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a504610 .functor XOR 1, L_000001c38a500ee0, L_000001c38a502a60, C4<0>, C4<0>;
+L_000001c38a504220 .functor NOT 1, L_000001c38a500ee0, C4<0>, C4<0>, C4<0>;
+L_000001c38a504370 .functor AND 1, L_000001c38a504220, L_000001c38a502a60, C4<1>, C4<1>;
+v000001c38a4f6a20_0 .net *"_ivl_2", 0 0, L_000001c38a504220;  1 drivers
+v000001c38a4f6c00_0 .net "c_out", 0 0, L_000001c38a504370;  alias, 1 drivers
+v000001c38a4f6d40_0 .net "num1", 0 0, L_000001c38a500ee0;  alias, 1 drivers
+v000001c38a4f6f20_0 .net "num2", 0 0, L_000001c38a502a60;  alias, 1 drivers
+v000001c38a4f7ce0_0 .net "sub", 0 0, L_000001c38a504610;  alias, 1 drivers
+S_000001c38a4f8850 .scope module, "HALF_SUBTRACTOR2" "half_subtractor" 3 11, 3 3 0, S_000001c38a4f8530;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a5048b0 .functor XOR 1, L_000001c38a504610, L_000001c38a503f10, C4<0>, C4<0>;
+L_000001c38a504c30 .functor NOT 1, L_000001c38a504610, C4<0>, C4<0>, C4<0>;
+L_000001c38a504ca0 .functor AND 1, L_000001c38a504c30, L_000001c38a503f10, C4<1>, C4<1>;
+v000001c38a4f72e0_0 .net *"_ivl_2", 0 0, L_000001c38a504c30;  1 drivers
+v000001c38a4f7380_0 .net "c_out", 0 0, L_000001c38a504ca0;  alias, 1 drivers
+v000001c38a4f7740_0 .net "num1", 0 0, L_000001c38a504610;  alias, 1 drivers
+v000001c38a4f8c10_0 .net "num2", 0 0, L_000001c38a503f10;  alias, 1 drivers
+v000001c38a4f8e90_0 .net "sub", 0 0, L_000001c38a5048b0;  alias, 1 drivers
+S_000001c38a4fba00 .scope module, "FULL_SUBTRACTOR4b2" "full_subtractor4b" 3 26, 3 15 0, S_000001c38a47a2b0;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 4 "csub";
+    .port_info 1 /OUTPUT 1 "c_outc";
+    .port_info 2 /INPUT 4 "numf1";
+    .port_info 3 /INPUT 4 "numf2";
+    .port_info 4 /INPUT 1 "c_in";
+v000001c38a4fd640_0 .net "c_in", 0 0, L_000001c38a504990;  alias, 1 drivers
+v000001c38a4fe360_0 .net "c_outc", 0 0, L_000001c38a5781c0;  alias, 1 drivers
+v000001c38a4fd460_0 .net "cin1", 0 0, L_000001c38a504a00;  1 drivers
+v000001c38a4fdb40_0 .net "cin2", 0 0, L_000001c38a504290;  1 drivers
+v000001c38a4fddc0_0 .net "cin3", 0 0, L_000001c38a503e30;  1 drivers
+v000001c38a4fd500_0 .net "csub", 3 0, L_000001c38a5015c0;  1 drivers
+v000001c38a4fdfa0_0 .net "numf1", 3 0, L_000001c38a5013e0;  1 drivers
+v000001c38a4fe040_0 .net "numf2", 3 0, L_000001c38a501de0;  1 drivers
+L_000001c38a5022e0 .part L_000001c38a5013e0, 0, 1;
+L_000001c38a501ca0 .part L_000001c38a501de0, 0, 1;
+L_000001c38a502380 .part L_000001c38a5013e0, 1, 1;
+L_000001c38a500da0 .part L_000001c38a501de0, 1, 1;
+L_000001c38a502420 .part L_000001c38a5013e0, 2, 1;
+L_000001c38a501a20 .part L_000001c38a501de0, 2, 1;
+L_000001c38a5015c0 .concat8 [ 1 1 1 1], L_000001c38a504920, L_000001c38a504760, L_000001c38a504b50, L_000001c38a5041b0;
+L_000001c38a5027e0 .part L_000001c38a5013e0, 3, 1;
+L_000001c38a502100 .part L_000001c38a501de0, 3, 1;
+S_000001c38a4fbb90 .scope module, "FULL_SUBTRACTOR1" "full_subtractor" 3 17, 3 8 0, S_000001c38a4fba00;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_outc";
+    .port_info 1 /OUTPUT 1 "csub";
+    .port_info 2 /INPUT 1 "numf1";
+    .port_info 3 /INPUT 1 "numf2";
+    .port_info 4 /INPUT 1 "c_in";
+L_000001c38a504a00 .functor OR 1, L_000001c38a504530, L_000001c38a5044c0, C4<0>, C4<0>;
+v000001c38a4f9070_0 .net "aux_out", 0 0, L_000001c38a5044c0;  1 drivers
+v000001c38a4f9ed0_0 .net "aux_out2", 0 0, L_000001c38a504530;  1 drivers
+v000001c38a4f8ad0_0 .net "aux_sub", 0 0, L_000001c38a5043e0;  1 drivers
+v000001c38a4fa1f0_0 .net "c_in", 0 0, L_000001c38a504990;  alias, 1 drivers
+v000001c38a4fa3d0_0 .net "c_outc", 0 0, L_000001c38a504a00;  alias, 1 drivers
+v000001c38a4fa0b0_0 .net "csub", 0 0, L_000001c38a504920;  1 drivers
+v000001c38a4f8df0_0 .net "numf1", 0 0, L_000001c38a5022e0;  1 drivers
+v000001c38a4f99d0_0 .net "numf2", 0 0, L_000001c38a501ca0;  1 drivers
+S_000001c38a4fc6d0 .scope module, "HALF_SUBTRACTOR1" "half_subtractor" 3 10, 3 3 0, S_000001c38a4fbb90;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a5043e0 .functor XOR 1, L_000001c38a5022e0, L_000001c38a501ca0, C4<0>, C4<0>;
+L_000001c38a5040d0 .functor NOT 1, L_000001c38a5022e0, C4<0>, C4<0>, C4<0>;
+L_000001c38a5044c0 .functor AND 1, L_000001c38a5040d0, L_000001c38a501ca0, C4<1>, C4<1>;
+v000001c38a4f9390_0 .net *"_ivl_2", 0 0, L_000001c38a5040d0;  1 drivers
+v000001c38a4f8a30_0 .net "c_out", 0 0, L_000001c38a5044c0;  alias, 1 drivers
+v000001c38a4f8d50_0 .net "num1", 0 0, L_000001c38a5022e0;  alias, 1 drivers
+v000001c38a4f94d0_0 .net "num2", 0 0, L_000001c38a501ca0;  alias, 1 drivers
+v000001c38a4f8b70_0 .net "sub", 0 0, L_000001c38a5043e0;  alias, 1 drivers
+S_000001c38a4fcb80 .scope module, "HALF_SUBTRACTOR2" "half_subtractor" 3 11, 3 3 0, S_000001c38a4fbb90;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a504920 .functor XOR 1, L_000001c38a5043e0, L_000001c38a504990, C4<0>, C4<0>;
+L_000001c38a504680 .functor NOT 1, L_000001c38a5043e0, C4<0>, C4<0>, C4<0>;
+L_000001c38a504530 .functor AND 1, L_000001c38a504680, L_000001c38a504990, C4<1>, C4<1>;
+v000001c38a4f9430_0 .net *"_ivl_2", 0 0, L_000001c38a504680;  1 drivers
+v000001c38a4f9a70_0 .net "c_out", 0 0, L_000001c38a504530;  alias, 1 drivers
+v000001c38a4f9570_0 .net "num1", 0 0, L_000001c38a5043e0;  alias, 1 drivers
+v000001c38a4f8fd0_0 .net "num2", 0 0, L_000001c38a504990;  alias, 1 drivers
+v000001c38a4f9d90_0 .net "sub", 0 0, L_000001c38a504920;  alias, 1 drivers
+S_000001c38a4fc090 .scope module, "FULL_SUBTRACTOR2" "full_subtractor" 3 18, 3 8 0, S_000001c38a4fba00;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_outc";
+    .port_info 1 /OUTPUT 1 "csub";
+    .port_info 2 /INPUT 1 "numf1";
+    .port_info 3 /INPUT 1 "numf2";
+    .port_info 4 /INPUT 1 "c_in";
+L_000001c38a504290 .functor OR 1, L_000001c38a504bc0, L_000001c38a5046f0, C4<0>, C4<0>;
+v000001c38a4f9890_0 .net "aux_out", 0 0, L_000001c38a5046f0;  1 drivers
+v000001c38a4f9930_0 .net "aux_out2", 0 0, L_000001c38a504bc0;  1 drivers
+v000001c38a4f9b10_0 .net "aux_sub", 0 0, L_000001c38a5045a0;  1 drivers
+v000001c38a4f9c50_0 .net "c_in", 0 0, L_000001c38a504a00;  alias, 1 drivers
+v000001c38a4fd000_0 .net "c_outc", 0 0, L_000001c38a504290;  alias, 1 drivers
+v000001c38a4fda00_0 .net "csub", 0 0, L_000001c38a504760;  1 drivers
+v000001c38a4fce20_0 .net "numf1", 0 0, L_000001c38a502380;  1 drivers
+v000001c38a4feb80_0 .net "numf2", 0 0, L_000001c38a500da0;  1 drivers
+S_000001c38a4fc220 .scope module, "HALF_SUBTRACTOR1" "half_subtractor" 3 10, 3 3 0, S_000001c38a4fc090;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a5045a0 .functor XOR 1, L_000001c38a502380, L_000001c38a500da0, C4<0>, C4<0>;
+L_000001c38a504a70 .functor NOT 1, L_000001c38a502380, C4<0>, C4<0>, C4<0>;
+L_000001c38a5046f0 .functor AND 1, L_000001c38a504a70, L_000001c38a500da0, C4<1>, C4<1>;
+v000001c38a4fa510_0 .net *"_ivl_2", 0 0, L_000001c38a504a70;  1 drivers
+v000001c38a4f9110_0 .net "c_out", 0 0, L_000001c38a5046f0;  alias, 1 drivers
+v000001c38a4fa5b0_0 .net "num1", 0 0, L_000001c38a502380;  alias, 1 drivers
+v000001c38a4fa010_0 .net "num2", 0 0, L_000001c38a500da0;  alias, 1 drivers
+v000001c38a4f96b0_0 .net "sub", 0 0, L_000001c38a5045a0;  alias, 1 drivers
+S_000001c38a4fc3b0 .scope module, "HALF_SUBTRACTOR2" "half_subtractor" 3 11, 3 3 0, S_000001c38a4fc090;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a504760 .functor XOR 1, L_000001c38a5045a0, L_000001c38a504a00, C4<0>, C4<0>;
+L_000001c38a5047d0 .functor NOT 1, L_000001c38a5045a0, C4<0>, C4<0>, C4<0>;
+L_000001c38a504bc0 .functor AND 1, L_000001c38a5047d0, L_000001c38a504a00, C4<1>, C4<1>;
+v000001c38a4f91b0_0 .net *"_ivl_2", 0 0, L_000001c38a5047d0;  1 drivers
+v000001c38a4f9750_0 .net "c_out", 0 0, L_000001c38a504bc0;  alias, 1 drivers
+v000001c38a4f9f70_0 .net "num1", 0 0, L_000001c38a5045a0;  alias, 1 drivers
+v000001c38a4f97f0_0 .net "num2", 0 0, L_000001c38a504a00;  alias, 1 drivers
+v000001c38a4f9cf0_0 .net "sub", 0 0, L_000001c38a504760;  alias, 1 drivers
+S_000001c38a4fc540 .scope module, "FULL_SUBTRACTOR3" "full_subtractor" 3 19, 3 8 0, S_000001c38a4fba00;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_outc";
+    .port_info 1 /OUTPUT 1 "csub";
+    .port_info 2 /INPUT 1 "numf1";
+    .port_info 3 /INPUT 1 "numf2";
+    .port_info 4 /INPUT 1 "c_in";
+L_000001c38a503e30 .functor OR 1, L_000001c38a504060, L_000001c38a504ae0, C4<0>, C4<0>;
+v000001c38a4fe5e0_0 .net "aux_out", 0 0, L_000001c38a504ae0;  1 drivers
+v000001c38a4fd5a0_0 .net "aux_out2", 0 0, L_000001c38a504060;  1 drivers
+v000001c38a4fd960_0 .net "aux_sub", 0 0, L_000001c38a503f80;  1 drivers
+v000001c38a4fd0a0_0 .net "c_in", 0 0, L_000001c38a504290;  alias, 1 drivers
+v000001c38a4fe9a0_0 .net "c_outc", 0 0, L_000001c38a503e30;  alias, 1 drivers
+v000001c38a4fd6e0_0 .net "csub", 0 0, L_000001c38a504b50;  1 drivers
+v000001c38a4fdbe0_0 .net "numf1", 0 0, L_000001c38a502420;  1 drivers
+v000001c38a4fde60_0 .net "numf2", 0 0, L_000001c38a501a20;  1 drivers
+S_000001c38a4fc860 .scope module, "HALF_SUBTRACTOR1" "half_subtractor" 3 10, 3 3 0, S_000001c38a4fc540;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a503f80 .functor XOR 1, L_000001c38a502420, L_000001c38a501a20, C4<0>, C4<0>;
+L_000001c38a504840 .functor NOT 1, L_000001c38a502420, C4<0>, C4<0>, C4<0>;
+L_000001c38a504ae0 .functor AND 1, L_000001c38a504840, L_000001c38a501a20, C4<1>, C4<1>;
+v000001c38a4fd280_0 .net *"_ivl_2", 0 0, L_000001c38a504840;  1 drivers
+v000001c38a4fd1e0_0 .net "c_out", 0 0, L_000001c38a504ae0;  alias, 1 drivers
+v000001c38a4fcec0_0 .net "num1", 0 0, L_000001c38a502420;  alias, 1 drivers
+v000001c38a4fd320_0 .net "num2", 0 0, L_000001c38a501a20;  alias, 1 drivers
+v000001c38a4fe4a0_0 .net "sub", 0 0, L_000001c38a503f80;  alias, 1 drivers
+S_000001c38a4fc9f0 .scope module, "HALF_SUBTRACTOR2" "half_subtractor" 3 11, 3 3 0, S_000001c38a4fc540;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a504b50 .functor XOR 1, L_000001c38a503f80, L_000001c38a504290, C4<0>, C4<0>;
+L_000001c38a503dc0 .functor NOT 1, L_000001c38a503f80, C4<0>, C4<0>, C4<0>;
+L_000001c38a504060 .functor AND 1, L_000001c38a503dc0, L_000001c38a504290, C4<1>, C4<1>;
+v000001c38a4fd820_0 .net *"_ivl_2", 0 0, L_000001c38a503dc0;  1 drivers
+v000001c38a4fec20_0 .net "c_out", 0 0, L_000001c38a504060;  alias, 1 drivers
+v000001c38a4fcf60_0 .net "num1", 0 0, L_000001c38a503f80;  alias, 1 drivers
+v000001c38a4fe540_0 .net "num2", 0 0, L_000001c38a504290;  alias, 1 drivers
+v000001c38a4fd8c0_0 .net "sub", 0 0, L_000001c38a504b50;  alias, 1 drivers
+S_000001c38a4fbd70 .scope module, "FULL_SUBTRACTOR4" "full_subtractor" 3 20, 3 8 0, S_000001c38a4fba00;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_outc";
+    .port_info 1 /OUTPUT 1 "csub";
+    .port_info 2 /INPUT 1 "numf1";
+    .port_info 3 /INPUT 1 "numf2";
+    .port_info 4 /INPUT 1 "c_in";
+L_000001c38a5781c0 .functor OR 1, L_000001c38a578e00, L_000001c38a503ff0, C4<0>, C4<0>;
+v000001c38a4fdc80_0 .net "aux_out", 0 0, L_000001c38a503ff0;  1 drivers
+v000001c38a4fe400_0 .net "aux_out2", 0 0, L_000001c38a578e00;  1 drivers
+v000001c38a4fd3c0_0 .net "aux_sub", 0 0, L_000001c38a503ea0;  1 drivers
+v000001c38a4fdd20_0 .net "c_in", 0 0, L_000001c38a503e30;  alias, 1 drivers
+v000001c38a4fe720_0 .net "c_outc", 0 0, L_000001c38a5781c0;  alias, 1 drivers
+v000001c38a4fe2c0_0 .net "csub", 0 0, L_000001c38a5041b0;  1 drivers
+v000001c38a4fe7c0_0 .net "numf1", 0 0, L_000001c38a5027e0;  1 drivers
+v000001c38a4fd780_0 .net "numf2", 0 0, L_000001c38a502100;  1 drivers
+S_000001c38a4fbf00 .scope module, "HALF_SUBTRACTOR1" "half_subtractor" 3 10, 3 3 0, S_000001c38a4fbd70;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a503ea0 .functor XOR 1, L_000001c38a5027e0, L_000001c38a502100, C4<0>, C4<0>;
+L_000001c38a504140 .functor NOT 1, L_000001c38a5027e0, C4<0>, C4<0>, C4<0>;
+L_000001c38a503ff0 .functor AND 1, L_000001c38a504140, L_000001c38a502100, C4<1>, C4<1>;
+v000001c38a4fe0e0_0 .net *"_ivl_2", 0 0, L_000001c38a504140;  1 drivers
+v000001c38a4fea40_0 .net "c_out", 0 0, L_000001c38a503ff0;  alias, 1 drivers
+v000001c38a4fcd80_0 .net "num1", 0 0, L_000001c38a5027e0;  alias, 1 drivers
+v000001c38a4fd140_0 .net "num2", 0 0, L_000001c38a502100;  alias, 1 drivers
+v000001c38a4fdaa0_0 .net "sub", 0 0, L_000001c38a503ea0;  alias, 1 drivers
+S_000001c38a4ff0b0 .scope module, "HALF_SUBTRACTOR2" "half_subtractor" 3 11, 3 3 0, S_000001c38a4fbd70;
+ .timescale -12 -12;
+    .port_info 0 /OUTPUT 1 "c_out";
+    .port_info 1 /OUTPUT 1 "sub";
+    .port_info 2 /INPUT 1 "num1";
+    .port_info 3 /INPUT 1 "num2";
+L_000001c38a5041b0 .functor XOR 1, L_000001c38a503ea0, L_000001c38a503e30, C4<0>, C4<0>;
+L_000001c38a504300 .functor NOT 1, L_000001c38a503ea0, C4<0>, C4<0>, C4<0>;
+L_000001c38a578e00 .functor AND 1, L_000001c38a504300, L_000001c38a503e30, C4<1>, C4<1>;
+v000001c38a4fe180_0 .net *"_ivl_2", 0 0, L_000001c38a504300;  1 drivers
+v000001c38a4fe220_0 .net "c_out", 0 0, L_000001c38a578e00;  alias, 1 drivers
+v000001c38a4fdf00_0 .net "num1", 0 0, L_000001c38a503ea0;  alias, 1 drivers
+v000001c38a4fe680_0 .net "num2", 0 0, L_000001c38a503e30;  alias, 1 drivers
+v000001c38a4feae0_0 .net "sub", 0 0, L_000001c38a5041b0;  alias, 1 drivers
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "decrement.v";
+    "./subtractor.v";

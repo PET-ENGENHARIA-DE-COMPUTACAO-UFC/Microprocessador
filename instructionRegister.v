@@ -1,4 +1,8 @@
 module InstructionRegister(
+<<<<<<< HEAD
+=======
+  input wire IR_load,
+>>>>>>> fb3cf58715ee8ba137720c29729b04d67b3c8cae
   input wire clk,
   input wire [7:0] opcode,
   input wire [7:0] operando1,
