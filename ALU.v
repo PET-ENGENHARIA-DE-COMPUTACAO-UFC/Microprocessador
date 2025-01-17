@@ -27,30 +27,9 @@ Flags[5] <= Direção
 Flags[6] <= Overflow
 */
 
-/*
-Para propósitos de teste faremos:
-ADD <= 00000001
-SUB <= 00000010
-MULT <= 00000011
-DIV <= 00000100
-INC <= 00000101
-DEC <= 00000110
-MOD <= 00000111
-SL <= 00001000
-SR <= 00001001
-L_AND <= 00001010
-L_NAND <= 00001011
-L_NOR <= 00001101
-L_NOT <= 00001110
-L_OR <= 00001111
-L_XNOR <= 00010000
-L_XOR <= 00010001
-L_ROL <= 00010010
-L_ROR <= 00010011
 
-*/
 
-module ALU(input[7:0]operand1, input[7:0]operand2, input clk, output reg[7:0]operation_result, input[7:0] ALU_sel, output reg[6:0]Flags, output reg eq, gt, lt);
+module ALU(input wire[7:0]operand1, input wire[7:0]operand2, input wire clk, output reg[7:0]operation_result, input wire[7:0] ALU_sel, output reg[6:0]Flags, output reg eq, gt, lt);
 
 wire[7:0] add_result, sub_result, increment_result, decrement_result, mod_result, mult_result, div_result, sr_result, sl_result;
 
@@ -60,24 +39,24 @@ wire add_carry, sub_carry, inc_carry, dec_carry;
 wire[7:0]div_rest;
 
 localparam 
-ADD = 00000011,
-SUB = 00000100,
-MULT = 00000101,
-DIV = 00000110,
-INC = 00010000,
-DEC = 00010010,
-MOD = 00000111,
-SL = 00010100,
-SR = 00010101,
-L_AND = 00001000,
-L_NAND = 00001110,
-L_NOR = 00001101,
-L_NOT = 00001010,
-L_OR = 00001001,
-L_XNOR = 00001111,
-L_XOR = 00010001,
-L_ROL = 00010110,
-L_ROR = 00010111,
+ADD = 8'b00000011,
+SUB = 8'b00000100,
+MULT = 8'b00000101,
+DIV = 8'b00000110,
+INC = 8'b00010000,
+DEC = 8'b00010010,
+MOD = 8'b00000111,
+SL = 8'b00010100,
+SR = 8'b00010101,
+L_AND = 8'b00001000,
+L_NAND = 8'b00001110,
+L_NOR = 8'b00001101,
+L_NOT = 8'b00001010,
+L_OR = 8'b00001001,
+L_XNOR = 8'b00001111,
+L_XOR = 8'b00010001,
+L_ROL = 8'b00010110,
+L_ROR = 8'b00010111,
 CMP = 8'b00011000;
 
 //Somador
@@ -194,7 +173,7 @@ ror ror_gate(
     .y(ror_result)
 );
 
-always@(*) begin
+always@(posedge clk) begin
     case(ALU_sel)
 
     //Caso do somador
@@ -363,7 +342,7 @@ always@(*) begin
     end
 
     //Caso do Ou negado lógico
-    L_OR: begin
+    L_NOR: begin
         operation_result <= nor_result;
         Flags[0] <= (operation_result == 0) ? 1 : 0;
         Flags[1] <= 0;
@@ -438,7 +417,7 @@ always@(*) begin
     end
 
     //Caso de Rolar à esquerda
-    SL: begin
+    L_ROL: begin
         operation_result <= rol_result;
         Flags[0] <= (operation_result == 8'b0) ? 1'b1 : 1'b0;
         Flags[1] <= operand1[7];
@@ -453,7 +432,7 @@ always@(*) begin
 end
 
     //Caso de rolar à direita
-    SR: begin
+    L_ROR: begin
     operation_result <= ror_result;
     Flags[0] <= (operation_result == 8'b0) ? 1'b1 : 1'b0;
     Flags[1] <= operand1[0];
@@ -463,8 +442,8 @@ end
     Flags[5] <= 0;
     Flags[6] <= 0;
     eq = 0;
-        gt = 0; 
-        lt = 0;
+    gt = 0; 
+    lt = 0;
 end
 
     CMP: begin
@@ -508,6 +487,7 @@ end
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
+
     end
 
 
