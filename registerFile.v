@@ -3,6 +3,7 @@ module RegisterFile(input wire clk,
                     input wire [7:0] A2,
                     input wire [7:0] A3,
                     input wire [7:0] WriteData, //pode vir da alu
+                    input wire [6:0] Flag_input,
 					input wire regWriteEnable, //enable para escrever no reg
           input wire regReadEnable, //enable para escrever no reg
                     output reg [7:0] RD1,	//dados de saida
@@ -16,6 +17,7 @@ module RegisterFile(input wire clk,
   always @(posedge clk) begin
     if(regWriteEnable) begin
       registers[A3[4:0]] <= WriteData;
+      registers[00011] <= Flag_input;
     end
   end
 

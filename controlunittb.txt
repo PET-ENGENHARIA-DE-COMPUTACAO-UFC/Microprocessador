@@ -1,0 +1,84 @@
+`timescale 1ns / 1ps
+
+module ControlUnit_tb;
+
+    // Declaração de sinais
+    reg [23:0] command_word;
+    reg clk;
+    reg rst;
+    reg ReadyRegFlag;
+
+    wire [7:0] PC_load;
+    wire PC_inc;
+    wire PC_en;
+    wire MAR_load;
+    wire IR_load;
+    wire [7:0] write_data;
+    wire [7:0] ALU_sel;
+    wire [7:0] ADR_1;
+    wire [7:0] ADR_2;
+    wire [7:0] ADR_3;
+    wire regWriteEnable;
+    wire regReadEnable;
+    wire Path_Type;
+
+    // Instância do módulo
+    ControlUnit uut (
+        .command_word(command_word),
+        .clk(clk),
+        .rst(rst),
+        .ReadyRegFlag(ReadyRegFlag),
+        .PC_load(PC_load),
+        .PC_inc(PC_inc),
+        .PC_en(PC_en),
+        .MAR_load(MAR_load),
+        .IR_load(IR_load),
+        .write_data(write_data),
+        .ALU_sel(ALU_sel),
+        .ADR_1(ADR_1),
+        .ADR_2(ADR_2),
+        .ADR_3(ADR_3),
+        .regWriteEnable(regWriteEnable),
+        .regReadEnable(regReadEnable),
+        .Path_Type(Path_Type)
+    );
+
+    // Clock generator
+    always #5 clk = ~clk; // Clock de 10ns (50MHz)
+
+    initial begin
+        // Inicialização
+        clk = 0;
+        rst = 1;
+        ReadyRegFlag = 0;
+        command_word = 24'b0;
+
+        // Reset ativo
+        #10 rst = 0;
+
+        // Teste FETCH
+        ReadyRegFlag = 1;
+        command_word = {8'b00000001, 8'hFF, 8'h01}; // STR_IMM com operando 0xFF e registrador 0x01
+        #50;
+
+        // Teste STR_DIR
+        command_word = {8'b00000010, 8'hAA, 8'h02}; // STR_DIR com endereço 0xAA e registrador 0x02
+        #50;
+
+        // Teste ARITHMETIC_OPERATION (ADD)
+        command_word = {8'b00000011, 8'h02, 8'h03}; // ADD entre registradores 0x02 e 0x03
+        #50;
+
+        // Teste JMP
+        command_word = {8'b00011001, 8'h10, 8'h00}; // JMP para endereço 0x10
+        #50;
+
+        // Teste RET
+        command_word = {8'b00011011, 8'h00, 8'h00}; // RET
+        #50;
+
+        // Finalização
+        $stop;
+    end
+
+endmodule

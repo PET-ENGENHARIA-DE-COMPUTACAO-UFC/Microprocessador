@@ -4,33 +4,34 @@ module ram
   parameter data_size = 8
 )
 (
-  input clk,
-  input rst,
-  
-  
-  input write_en,
-  input [addr_size-1:0]write_adress,
-  input [data_size-1:0]data_in,
-  
-  input rd_en,
-  input [addr_size-1:0]rd_adress,
-  output reg [data_size-1:0]data_out
+  input wire clk,
+  input wire rst,
+
+  input wire write_en,
+  input wire [addr_size-1:0] write_adress,
+  input wire [data_size-1:0] data_in,
+
+  input wire rd_en,
+  input wire [addr_size-1:0] rd_adress,
+  output reg [data_size-1:0] data_out
 );
 
 
 //Declaração da Memória:
 
-  reg[data_size-1:0] ram[255:0];
+reg[7:0] ram [0:255];
+
+initial begin
+  $readmemb("binary.mem",ram);
+end
 
 always@(posedge clk)
   begin
     if(rst)
-      ram[write_adress]<= 'bz;
+      $readmemb("binary.mem",ram);
     else
       begin 
-        if(write_en)
           ram[write_adress] <= data_in;
-        if(rd_en)
           data_out <= ram[rd_adress];
       end
   end

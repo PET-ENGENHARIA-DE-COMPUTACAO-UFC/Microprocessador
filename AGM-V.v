@@ -1,4 +1,4 @@
-`include "ControlUnit.v"
+`include "ControlUnit2.v"
 `include "temporizador.v"
 `include "ALU.v"
 `include "RAM.v"
@@ -6,27 +6,56 @@
 `include "MAR.v"
 `include "instructionRegister.v"
 `include "registerFile.v"
-module processor();
-wire clk, rst, clk_in; //Fios de clock e reset
+module processor(
+    input wire clk, //Sinal de clock
+    input wire rst, //Sinal de reset
+    output wire [7:0]PC_wire, // Endereço lido na RAM
+    output wire [7:0]data_out, // Dado que foi lido na RAM
+    output wire [7:0]ADR_1_wire, // Fio de endereço 1 passado ao Register File (leitura)
+    output wire [7:0]ADR_2_wire, // Fio de endereço 2 passado ao Register File (leitura)
+    output wire [7:0]ADR_3_wire, // Fio de endereço 3 passado ao Register File (escrita)
+    output wire [7:0]RD1_wire, //
+    output wire [7:0]RD2_wire, //
+    output wire PC_inc_wire,
+    output wire PC_en_wire, //Fios de incremento do PC e enable do PC
+    output wire [7:0]current_state_out_wire, 
+    output wire [23:0]command_word_wire
+);
+
 wire [7:0]PC_load_wire; //Fio do sinal de PC load
-wire PC_inc_wire, PC_en_wire; //Fios de incremento do PC e enable do PC
-wire MAR_load; //Fio de "enable" do MAR
-wire IR_load; //Fio de "enable" do IR
-wire [23:0]command_word_wire; //Fio com a entrada da Control Unit
-wire [7:0]operand1_wire, operand2_wire; //Fios dos operandos da ALU.
-wire [7:0]ADR_1_wire, ADR_2_wire; //Fios de endereço a ser lido
-wire [7:0]ADR_3_wire; //Fios de endereço a ser escrito
+
+wire MAR_load_wire; //Fio de "enable" do MAR
+
+wire IR_load_wire; //Fio de "enable" do IR
+
 wire [7:0]write_data_wire; //Fio de dados a serem escritos
+
 wire regWriteEnable_wire; //Fio do enable da escrita
+
 wire regReadEnable_wire; //Fio do enable da leitura
+
 wire [7:0]ALU_sel_wire; //Fio do sinal de controle da ALU
-wire [7:0]PC_adress_wire; //Fio do endereço apontado pelo PC
-wire [7:0]RAM_instruction_wire; //Fio da instrução lida pelo MAR
+
 wire [7:0]IR_opcode_wire; //Fio da instrução lida pelo MAR
-wire [7:0]IR_operand1_wire; //Fio da instrução lida pelo MAR
-wire [7:0]IR_operand2_wire; //Fio da instrução lida pelo MAR
-wire [2:0]compare_result_wire; //Fio da instrução lida pelo MAR
+
 wire [6:0]flag_wire; //Fio da instrução lida pelo MAR
+
+wire ReadyRegFlag_wire; //Fio de confirmação da concatenação da instrução
+
+wire [7:0]mux_result_wire; //Fio do que irá ao write adress
+
+wire [7:0]operation_result_wire; //Fio do resultado da operação aritmética
+
+wire [1:0]Path_Type_wire; //Fio do tipo de circuito
+
+wire [7:0]MAR_instruction_wire; //Fio da instrução lida pelo MAR
+
+//SINAIS DA RAM:
+wire write_en;
+wire rd_en;
+reg [7:0]data_in;
+reg [7:0]write_adress;
+
 
 //timer tmp(.clk_out(clk), .clk_in(clk_in),.rst(rst));
 
@@ -34,80 +63,86 @@ ControlUnit UC(
     .command_word(command_word_wire),
     .clk(clk),
     .rst(rst),
+    .ReadyRegFlag(ReadyRegFlag_wire),
+    .PC_current_value(PC_wire),
     .PC_load(PC_load_wire),
     .PC_inc(PC_inc_wire),
     .PC_en(PC_en_wire),
-    .MAR_load(MAR_load),
-    .IR_load(IR_load),
+    .MAR_load(MAR_load_wire),
+    .IR_load(IR_load_wire),
     .write_data(write_data_wire),
     .ALU_sel(ALU_sel_wire),
     .ADR_1(ADR_1_wire),
     .ADR_2(ADR_2_wire),
     .ADR_3(ADR_3_wire),
-    .Op1(operand1_wire),
-    .Op2(operand2_wire),
     .regWriteEnable(regWriteEnable_wire),
-    .regReadEnable(regReadEnable_wire)
+    .regReadEnable(regReadEnable_wire),
+    .Path_Type(Path_Type_wire),
+    .rd_en(rd_en),
+    .current_state_out(current_state_out_wire)
 );
 
 ALU ArithmeticLogicUnit(
-    .operand1(operand1_wire),
-    .operand2(operand2_wire),
+    .operand1(RD1_wire),
+    .operand2(RD1_wire),
     .clk(clk),
-    .operation_result(IR_opcode_wire), //Deverá ser truncado
+    .operation_result(operation_result_wire), //Deverá ser truncado
     .ALU_sel(ALU_sel_wire),
     .Flags(flag_wire), //Vai pro register file 
-    .eq(compare_result_wire[0]), //Deverá ser truncado
-    .gt(compare_result_wire[1]),
-    .lt(compare_result_wire[2])
+    .eq(), //Deverá ser truncado
+    .gt(),
+    .lt()
 );
 
 ram RandomAcessMemory(
     .clk(clk),
     .rst(rst),
-    .write_en(1'b0),
-    .write_adress(8'b0),
-    .data_in(8'b0),
-    .rd_en(1'b1),
-    .rd_adress(PC_adress_wire),
-    .data_out(RAM_instruction_wire)
+    .write_en(write_en),
+    .write_adress(write_adress),
+    .data_in(data_in),
+    .rd_en(rd_en),
+    .rd_adress(PC_wire),
+    .data_out(data_out)
 );
 
 pcCounter ProgramCounter(
+    .clk(clk),
     .PC_load(PC_load_wire),
     .PC_inc(PC_inc_wire),
     .PC_en(PC_en_wire),
-    .PC(PC_adress_wire)
+    .PC(PC_wire)
 );
 
 MAR MemoryAdressRegister(
     .MAR_load(MAR_load),
     .clk(clk),
-    .data(RAM_instruction_wire),
-    .instruction(IR_opcode_wire)
+    .data(data_out),
+    .instruction(MAR_instruction_wire)
 );
 
 
 
 InstructionRegister IR(
-    .IR_load(IR_load),
+    .IR_load(IR_load_wire),
     .clk(clk),
-    .opcode(IR_opcode_wire),
-    .operando1(IR_operand1_wire),
-    .operando2(IR_operand2_wire),
-    .instReg(command_word_wire)
+    .payload(MAR_instruction_wire),
+    .instReg(command_word_wire),
+    .ReadyFlag(ReadyRegFlag_wire)
 );
+
+assign mux_result_wire = (Path_Type_wire == 2'b00) ? operation_result_wire : (Path_Type_wire == 2'b01) ? RD1_wire : (Path_Type_wire == 2'b10) ? write_data_wire : 8'b0;
 
 RegisterFile RF(
     .clk(clk),
     .A1(ADR_1_wire),
     .A2(ADR_2_wire),
     .A3(ADR_3_wire),
-    .WriteData(write_data_wire),
+    .WriteData(mux_result_wire),
+    .Flag_input(flag_wire),
     .regWriteEnable(regWriteEnable_wire),
     .regReadEnable(regReadEnable_wire),
-    .RD1(IR_opcode_wire), //Deverão ser truncados        RD1 RD2 ADR_2
-    .RD2(command_word_wire[15:8])
+    .RD1(RD1_wire),
+    .RD2(RD2_wire)
 );
 
 

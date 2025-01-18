@@ -1,4 +1,4 @@
-module ControlUnit(input wire[23:0] command_word, input wire clk, input wire rst, input wire [1:0]fullRegFlag, output reg[7:0]PC_load, output reg PC_inc, output reg PC_en, output reg MAR_load, output reg IR_load, output reg [7:0]write_data, output reg[7:0]ALU_sel, output reg [7:0]ADR_1, output reg [7:0]ADR_2, output reg [7:0]ADR_3, output reg [7:0]Op1, output reg[7:0]Op2, output reg regWriteEnable, output reg regReadEnable);
+module ControlUnit(input wire[23:0] command_word, input wire clk, input wire rst, input wire [1:0]fullRegFlag, output reg[7:0]PC_load, output reg PC_inc, output reg PC_en, output reg MAR_load, output reg IR_load, output reg [7:0]write_data, output reg[7:0]ALU_sel, output reg [7:0]ADR_1, output reg [7:0]ADR_2, output reg [7:0]ADR_3, output reg [7:0]Op1, output reg[7:0]Op2, output reg regWriteEnable, output reg regReadEnable, output reg Path_Type);
 
 //FSM Encoding
 localparam FETCH_0 = 0, FETCH_1 = 1, FETCH_2 = 3, DECODE = 4, STR_IMM_0 = 5, STR_DIR_0 = 6, STR_DIR_1 = 7, LOA_IMM_0 = 8, LOA_DIR_0 = 9, LOA_DIR_1 = 10, MOV_0 = 11, MOV_1 = 12, ARITHMETIC_OPERATION_0 = 13, ARITHMETIC_OPERATION_1 = 14, ARITHMETIC_OPERATION_2 = 15, JMP_0 = 16, JMP_1 = 17, CALL_0 = 18, CALL_1 = 19, RET_0 = 20, JC = 21, JZ_1 = 22, JNZ_1 = 23, JG_1 = 24, JL_1 = 25, JC_2 = 26;
@@ -37,6 +37,9 @@ JNZ = 8'b00011101,
 JG = 8'b00011110,
 JL = 8'b00011111;
 
+//Path encoding
+localparam alu_path = 0, memory_path = 1;
+
 //Register Encoding
 localparam REG_C = 8'b00000010;
 
@@ -65,64 +68,130 @@ case(current_state)
     FETCH_2 : next_state = DECODE;
 
     DECODE: 
-            if(command_word[23:16] == STR_IMM) next_state = STR_IMM_0;
+            if(command_word[23:16] == STR_IMM) begin
+              next_state = STR_IMM_0;
+              Path_Type = memory_path;
+            end
 
-            else if(command_word[23:16] == STR_DIR)   next_state = STR_DIR_0;
+            else if(command_word[23:16] == STR_DIR)   begin
+              next_state = STR_DIR_0;
+              Path_Type = memory_path;
+            end
 
-            else if(command_word[23:16] == LOA_IMM)   next_state = LOA_IMM_0 ;
+            else if(command_word[23:16] == LOA_IMM)   begin
+              next_state = LOA_IMM_0;
+              Path_Type = memory_path;
+            end
 
-            else if(command_word[23:16] == LOA_DIR)   next_state = LOA_DIR_0;
+            else if(command_word[23:16] == LOA_DIR)   begin
+              next_state = LOA_DIR_0;
+              Path_Type = memory_path;
+            end
 
-            else if(command_word[23:16] == MOV)   
+            else if(command_word[23:16] == MOV)   begin
             next_state = MOV_0;
+            Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == ADD)   
+            else if(command_word[23:16] == ADD)   begin
             next_state = ARITHMETIC_OPERATION_0;
+            Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == SUB)   
+            else if(command_word[23:16] == SUB)   begin
             next_state = ARITHMETIC_OPERATION_0;
+            Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == MULT)   
+            else if(command_word[23:16] == MULT)   begin
             next_state = ARITHMETIC_OPERATION_0;
+            Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == DIV)   
+            else if(command_word[23:16] == DIV)  begin
             next_state = ARITHMETIC_OPERATION_0;
+            Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == MOD)   
+            else if(command_word[23:16] == MOD)   begin
             next_state = ARITHMETIC_OPERATION_0;
+            Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == L_AND)   next_state = ARITHMETIC_OPERATION_0;
+            else if(command_word[23:16] == L_AND)   begin
+              next_state = ARITHMETIC_OPERATION_0;
+              Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == L_OR)   
+            else if(command_word[23:16] == L_OR)   begin
             next_state = ARITHMETIC_OPERATION_0;
+            Path_Type = alu_path;
+            end
             
-            else if(command_word[23:16] == L_NOT)   next_state = ARITHMETIC_OPERATION_0;
+            else if(command_word[23:16] == L_NOT)   begin
+              next_state = ARITHMETIC_OPERATION_0;
+              Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == L_XOR)   next_state = ARITHMETIC_OPERATION_0;
+            else if(command_word[23:16] == L_XOR)  begin
+               next_state = ARITHMETIC_OPERATION_0;
+               Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == L_NAND)   next_state = ARITHMETIC_OPERATION_0;
+            else if(command_word[23:16] == L_NAND)   begin
+              next_state = ARITHMETIC_OPERATION_0;
+              Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == L_XNOR)   next_state = ARITHMETIC_OPERATION_0;
+            else if(command_word[23:16] == L_XNOR)   begin
+              next_state = ARITHMETIC_OPERATION_0;
+              Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == INC)   
+            else if(command_word[23:16] == INC)  begin 
             next_state = ARITHMETIC_OPERATION_0;
+            Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == DEC)   
+            else if(command_word[23:16] == DEC)   begin
             next_state = ARITHMETIC_OPERATION_0;
+            Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == SL)   
+            else if(command_word[23:16] == SL)  begin 
             next_state = ARITHMETIC_OPERATION_0;
+            Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == SR)   
+            else if(command_word[23:16] == SR)   begin
             next_state = ARITHMETIC_OPERATION_0;
+            Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == L_ROL)   next_state = ARITHMETIC_OPERATION_0;
+            else if(command_word[23:16] == L_ROL)  begin
+              next_state = ARITHMETIC_OPERATION_0;
+              Path_Type = alu_path;
+            end
 
-            else if(command_word[23:16] == L_ROR)   next_state = ARITHMETIC_OPERATION_0;
-            else if(command_word[23:16] == JMP)   next_state = JMP_0;
-            else if(command_word[23:16] == CALL)   next_state = CALL_0;
-            else if(command_word[23:16] == RET)   next_state = RET_0;
-            else if(command_word[23:16] == JZ || command_word[23:16] == JNZ || command_word[23:16] == JG || command_word[23:16] == JL)   next_state = JC;
+            else if(command_word[23:16] == L_ROR)   begin
+              next_state = ARITHMETIC_OPERATION_0;
+              Path_Type = alu_path;
+            end
+            else if(command_word[23:16] == JMP)   begin
+              next_state = JMP_0;
+              Path_Type = alu_path;
+            end
+            else if(command_word[23:16] == CALL)  begin
+               next_state = CALL_0;
+               Path_Type = memory_path;
+            end
+            else if(command_word[23:16] == RET)   begin
+              next_state = RET_0;
+              Path_Type = memory_path;
+            end
+            else if(command_word[23:16] == JZ || command_word[23:16] == JNZ || command_word[23:16] == JG || command_word[23:16] == JL)   begin next_state = JC;
+              Path_Type = memory_path;
+            end
 
     STR_IMM_0: next_state <= FETCH_0;
     LOA_IMM_0: next_state <= FETCH_0;
@@ -192,7 +261,7 @@ end
 FETCH_1: begin //Incrementa o pc
 PC_inc = 1;
 MAR_load = 0;
-IR_load = 1;
+IR_load = 0;
 write_data = 8'b0;
 regWriteEnable = 0;
 regReadEnable = 0;
@@ -248,16 +317,16 @@ end
 STR_DIR_0: begin
 PC_inc = 0;
 MAR_load = 0;
-IR_load = 1;
+IR_load = 0;
 write_data = 8'b0;
 regWriteEnable = 0;
 regReadEnable = 1;
-temporary_info_reg = command_word[15:8];
+//temporary_info_reg = command_word[15:8];
 ADR_1 = command_word[7:0];
 ADR_2 = 8'b0;
-ADR_3 = 8'b0;
-Op1 = 8'b0;
-Op2 = 8'b0;
+ADR_3 = command_word[15:8];
+//Op1 = 8'b0;
+//Op2 = 8'b0;
 end
 
 STR_DIR_1: begin
