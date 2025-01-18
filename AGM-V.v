@@ -9,24 +9,12 @@
 module processor(
     input wire clk, //Sinal de clock
     input wire rst, //Sinal de reset
-    output wire [7:0]PC_wire, // Endereço lido na RAM
-    output wire [7:0]data_out, // Dado que foi lido na RAM
     output wire [7:0]ADR_1_wire, // Fio de endereço 1 passado ao Register File (leitura)
     output wire [7:0]ADR_2_wire, // Fio de endereço 2 passado ao Register File (leitura)
     output wire [7:0]ADR_3_wire, // Fio de endereço 3 passado ao Register File (escrita)
     output wire [7:0]RD1_wire, //
     output wire [7:0]RD2_wire, //
-    output wire PC_inc_wire,
-    output wire PC_en_wire, //Fios de incremento do PC e enable do PC
-    output wire [7:0]current_state_out_wire, 
-    output wire [23:0]command_word_wire,
-    output wire ReadyRegFlag_wire,
-    output wire IR_load_wire, //Fio de "enable" do IR
-    output wire [7:0]MAR_instruction_wire, //Fio da instrução lida pelo MAR
-    output wire MAR_load_wire, //Fio de "enable" do MAR
-    output wire [7:0]opcode_out,
-    output wire [1:0]Path_Type_wire, //Fio do tipo de circuito
-    output wire [7:0]PC_load_wire //Fio do sinal de PC load
+    output wire [7:0]opcode_out
 );
 
 wire [7:0]write_data_wire; //Fio de dados a serem escritos
@@ -53,6 +41,20 @@ reg [7:0]write_adress;
 
 
 //timer tmp(.clk_out(clk), .clk_in(clk_in),.rst(rst));
+
+wire [1:0]Path_Type_wire; //Fio do tipo de circuito
+wire [7:0]PC_load_wire; //Fio do sinal de PC load
+
+wire PC_inc_wire;
+wire PC_en_wire; //Fios de incremento do PC e enable do PC
+wire [7:0]current_state_out_wire;
+wire [23:0]command_word_wire;
+wire ReadyRegFlag_wire;
+wire IR_load_wire; //Fio de "enable" do IR
+wire [7:0]MAR_instruction_wire; //Fio da instrução lida pelo MAR
+wire MAR_load_wire; //Fio de "enable" do MAR
+wire [7:0]PC_wire; // Endereço lido na RAM
+wire [7:0]data_out; // Dado que foi lido na RAM
 
 ControlUnit UC(
     .command_word(command_word_wire),
