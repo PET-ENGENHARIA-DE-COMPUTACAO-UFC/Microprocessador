@@ -1,4 +1,4 @@
-module stack #(parameter WIDTH = 8, parameter DEPTH = 16)(
+module stack #(parameter WIDTH, parameter DEPTH)(
     input wire              clk,
     input wire              rst,
     input wire              push,
