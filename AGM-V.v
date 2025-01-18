@@ -25,10 +25,9 @@ module processor(
     output wire [7:0]MAR_instruction_wire, //Fio da instrução lida pelo MAR
     output wire MAR_load_wire, //Fio de "enable" do MAR
     output wire [7:0]opcode_out,
-    output wire [1:0]Path_Type_wire //Fio do tipo de circuito
+    output wire [1:0]Path_Type_wire, //Fio do tipo de circuito
+    output wire [7:0]PC_load_wire //Fio do sinal de PC load
 );
-
-wire [7:0]PC_load_wire; //Fio do sinal de PC load
 
 wire [7:0]write_data_wire; //Fio de dados a serem escritos
 
@@ -85,10 +84,7 @@ ALU ArithmeticLogicUnit(
     .clk(clk),
     .operation_result(operation_result_wire), //Deverá ser truncado
     .ALU_sel(ALU_sel_wire),
-    .Flags(flag_wire), //Vai pro register file 
-    .eq(), //Deverá ser truncado
-    .gt(),
-    .lt()
+    .Flags(flag_wire) //Vai pro register file 
 );
 
 ram RandomAcessMemory(

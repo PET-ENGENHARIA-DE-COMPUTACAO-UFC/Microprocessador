@@ -29,7 +29,7 @@ Flags[6] <= Overflow
 
 
 
-module ALU(input wire[7:0]operand1, input wire[7:0]operand2, input wire clk, output reg[7:0]operation_result, input wire[7:0] ALU_sel, output reg[6:0]Flags, output reg eq, gt, lt);
+module ALU(input wire[7:0]operand1, input wire[7:0]operand2, input wire clk, output reg[7:0]operation_result, input wire[7:0] ALU_sel, output reg[6:0]Flags);
 
 wire[7:0] add_result, sub_result, increment_result, decrement_result, mod_result, mult_result, div_result, sr_result, sl_result;
 
@@ -39,25 +39,24 @@ wire add_carry, sub_carry, inc_carry, dec_carry;
 wire[7:0]div_rest;
 
 localparam 
-ADD = 8'b00000011,
-SUB = 8'b00000100,
-MULT = 8'b00000101,
-DIV = 8'b00000110,
-INC = 8'b00010000,
-DEC = 8'b00010010,
-MOD = 8'b00000111,
-SL = 8'b00010100,
-SR = 8'b00010101,
-L_AND = 8'b00001000,
-L_NAND = 8'b00001110,
-L_NOR = 8'b00001101,
-L_NOT = 8'b00001010,
-L_OR = 8'b00001001,
-L_XNOR = 8'b00001111,
-L_XOR = 8'b00010001,
+ADD = 8'b00000110,
+SUB = 8'b00000111,
+MULT = 8'b00001000,
+DIV = 8'b00001001,
+INC = 8'b00001010,
+DEC = 8'b00001011,
+MOD = 8'b00001100,
+SL = 8'b00001101,
+SR = 8'b00001110,
+L_AND = 8'b00001111,
+L_NAND = 8'b00010000,
+L_NOR = 8'b00010001,
+L_NOT = 8'b00010010,
+L_OR = 8'b00010011,
+L_XNOR = 8'b00010100,
+L_XOR = 8'b00010101,
 L_ROL = 8'b00010110,
-L_ROR = 8'b00010111,
-CMP = 8'b00011000;
+L_ROR = 8'b00010111;
 
 //Somador
 full_adder8b adder (
@@ -173,7 +172,7 @@ ror ror_gate(
     .y(ror_result)
 );
 
-always@(posedge clk) #7
+always@(posedge clk) #5
 begin
     case(ALU_sel)
 
@@ -187,9 +186,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand1[7] == operand2[7]) && (operand1[7] != operation_result[7]);
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do subtrator
@@ -202,9 +201,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand1[7] != operand2[7]) && (operand1[7] == operation_result[7]);
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do incremento em 1
@@ -217,9 +216,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand1[7] == operand2[7]) && (operand1[7] != operation_result[7]);
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do decremento em 1
@@ -232,9 +231,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand1[7] != operand2[7]) && (operand1[7] == operation_result[7]);
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do multiplicador
@@ -247,9 +246,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand1[7] == operand2[7]) && (operand1[7] != operation_result[7]);
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do divisor
@@ -262,9 +261,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand2 == 0) ? 1 : 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do cálculo do resto da divisão
@@ -277,9 +276,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= (operand2 == 0) ? 1 : 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do shift left
@@ -292,9 +291,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 1;
         Flags[6] <= (operand1[7] != operation_result[7]);
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do shift right
@@ -307,9 +306,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do E lógico
@@ -322,9 +321,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do E negado lógico
@@ -337,9 +336,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do Ou negado lógico
@@ -352,9 +351,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso da negação lógica
@@ -367,9 +366,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do E lógico
@@ -382,9 +381,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do Ou negado exclusivo lógico
@@ -397,9 +396,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso do Ou exclusivo lógico
@@ -412,9 +411,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
     end
 
     //Caso de Rolar à esquerda
@@ -427,9 +426,9 @@ begin
         Flags[4] <= 0;
         Flags[5] <= 0;
         Flags[6] <= 0;
-        eq = 0;
-        gt = 0; 
-        lt = 0;
+        
+         
+        
 end
 
     //Caso de rolar à direita
@@ -442,44 +441,12 @@ end
     Flags[4] <= 0;
     Flags[5] <= 0;
     Flags[6] <= 0;
-    eq = 0;
-    gt = 0; 
-    lt = 0;
+    
+     
+    
 end
 
-    CMP: begin
-    operation_result <= sub_result;
-    Flags[0] <= (operation_result == 0) ? 1 : 0;
-    Flags[1] <= sub_carry;
-    Flags[2] <= operation_result[7];
-    Flags[3] <= (operation_result[0] ^ operation_result[1] ^ operation_result[2] ^ operation_result[3] ^ operation_result[4] ^ operation_result[5] ^ operation_result[6] ^ operation_result[7]) ? 0 : 1;
-    Flags[4] <= 0;
-    Flags[5] <= 0;
-    Flags[6] <= (operand1[7] != operand2[7]) && (operand1[7] == operation_result[7]);
-
-    if(!Flags[0]) begin
-        eq = 1;
-    end
-    else begin
-        eq = 0;
-    end
-    if(!Flags[0] && !Flags[2] && !Flags[6]) begin
-        gt = 1;
-    end
-    else begin
-        gt = 0;
-    end
-    if(Flags[2] ^ Flags[6]) begin
-        lt = 1;
-    end
-    else begin
-        lt = 0;
-    end
-    
-
-    end
-
-    default: begin
+    /*default: begin
         operation_result <= 8'b00000000;
         Flags[0] <= 1;
         Flags[1] <= 0;
@@ -489,7 +456,7 @@ end
         Flags[5] <= 0;
         Flags[6] <= 0;
 
-    end
+    end */
 
 
 

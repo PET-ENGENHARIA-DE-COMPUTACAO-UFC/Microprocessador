@@ -23,16 +23,16 @@ module RegisterFile(input wire clk,
     end
   end
 
-always@(*) #9
+always@(*) 
 begin
 if(regReadEnable) begin
   RD1 <= registers[A1[4:0]];
   RD2 <= registers[A2[4:0]];
 end
-else begin
+/*else begin
   RD1 <= 8'b0;
   RD2 <= 8'b0;
-end 
+end */
 end
 
 

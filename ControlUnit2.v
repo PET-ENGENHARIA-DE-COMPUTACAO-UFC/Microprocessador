@@ -8,28 +8,27 @@ localparam FETCH_0 = 8'b0, FETCH_1 = 8'b00000001, FETCH_2 = 8'b00000011, DECODE 
 localparam 
 STR_IMM = 8'b00000001,
 STR_DIR = 8'b00000010,
-LOA_IMM = 8'b00011000,
-LOA_DIR = 8'b00011001,
-MOV = 8'b00011010,
-ADD = 8'b00000011,
-SUB = 8'b00000100,
-MULT = 8'b00000101,
-DIV = 8'b00000110,
-INC = 8'b00010000,
-DEC = 8'b00010010,
-MOD = 8'b00000111,
-SL = 8'b00010100,
-SR = 8'b00010101,
-L_AND = 8'b00001000,
-L_NAND = 8'b00001110,
-L_NOR = 8'b00001101,
-L_NOT = 8'b00001010,
-L_OR = 8'b00001001,
-L_XNOR = 8'b00001111,
-L_XOR = 8'b00010001,
+LOA_IMM = 8'b00000011,
+LOA_DIR = 8'b00000100,
+MOV = 8'b00000101,
+ADD = 8'b00000110,
+SUB = 8'b00000111,
+MULT = 8'b00001000,
+DIV = 8'b00001001,
+INC = 8'b00001010,
+DEC = 8'b00001011,
+MOD = 8'b00001100,
+SL = 8'b00001101,
+SR = 8'b00001110,
+L_AND = 8'b00001111,
+L_NAND = 8'b00010000,
+L_NOR = 8'b00010001,
+L_NOT = 8'b00010010,
+L_OR = 8'b00010011,
+L_XNOR = 8'b00010100,
+L_XOR = 8'b00010101,
 L_ROL = 8'b00010110,
 L_ROR = 8'b00010111,
-CMP = 8'b00011000,
 JMP = 8'b00011001,
 CALL = 8'b00011010,
 RET = 8'b00011011,
@@ -42,8 +41,8 @@ localparam alu_path = 2'b00, memory_path = 2'b01, uc_path = 2'b10;
 reg[7:0] current_state, next_state; 
 
 //Stack de valores do PC
-reg [7:0] pc_stack_reg [0:15];
-reg[3:0] stack_pointer;
+reg [7:0] pc_stack_reg [15:0];
+reg[15:0] stack_pointer;
 
 /* always@(posedge clk)begin
   if(rst)begin
@@ -101,7 +100,7 @@ case(current_state)
 
             else if(command_word[23:16] == MOV)   begin
             next_state <= MOV_0;
-            Path_Type <= alu_path;
+            Path_Type <= memory_path;
             end
 
             else if(command_word[23:16] == ADD)   begin
@@ -217,6 +216,7 @@ case(current_state)
     LOA_DIR_1: next_state <= FETCH_0;
 
     MOV_0: next_state <= MOV_1;
+    MOV_1: next_state <= FETCH_0;
 
     ARITHMETIC_OPERATION_0: next_state <= ARITHMETIC_OPERATION_1;
 
@@ -228,6 +228,8 @@ case(current_state)
     JMP_1: next_state <= FETCH_0;
 
     CALL_0: next_state <= FETCH_0;
+
+    RET_0: next_state <= FETCH_0;
     
     READ_0: next_state <= FETCH_0;
 
@@ -236,22 +238,12 @@ endcase
 end
 
 always@(current_state) begin
-        /* PC_inc = 0;
-        MAR_load = 0;
-        IR_load = 0;
-        write_data = 8'b0;
-        regWriteEnable = 0;
-        regReadEnable = 0;
-        ADR_1 = 8'b0;
-        ADR_2 = 8'b0;
-        ADR_3 = 8'b0;
-        stack_pointer = 4'b0; */
-
     case(current_state) 
     FETCH_0: begin
         if(rst) begin
             PC_en <= 1;
             PC_load <= 8'b0;
+            stack_pointer = 16'b0;
             //rd_en <= 1;
         end
         MAR_load <= 1;
@@ -290,7 +282,7 @@ end
         MAR_load <= 0;
         IR_load <= 0;
         write_data <= command_word[7:0];
-        regWriteEnable <= 0;
+        regWriteEnable <= 1;
         regReadEnable <= 0;
         ADR_1 <= 8'b0;
         ADR_2 <= 8'b0;
@@ -301,29 +293,35 @@ end
         ADR_1 <= command_word[7:0];
         ADR_3 <= command_word[15:8];
         regReadEnable <= 1;
+        regWriteEnable <= 0;
     end
 
     STR_DIR_1: begin
         regWriteEnable <= 1;
+        regReadEnable <= 0;
     end
 
     LOA_DIR_0: begin
         ADR_1 <= command_word[7:0];
         ADR_3 <= command_word[15:8];
         regReadEnable <= 1;
+        regWriteEnable <= 0;
     end
 
     LOA_DIR_1: begin
         regWriteEnable <= 1;
+        regReadEnable <= 0;
     end
 
     MOV_0: begin
         ADR_1 <= command_word[7:0];
-        ADR_3 <= command_word[7:0];
+        ADR_3 <= command_word[15:8];
         regReadEnable <= 1;
+        regWriteEnable <= 0;
     end
 
     MOV_1: begin
+        regReadEnable <= 0;
         regWriteEnable <= 1;
     end
 
@@ -332,17 +330,17 @@ end
         ALU_sel <= command_word[23:16];
         ADR_1 <= command_word[15:8];
         ADR_2 <= command_word[7:0];
+        ADR_3 <= 8'b00000010;
     end
 
-    ARITHMETIC_OPERATION_1: #5
-    begin
-        
+    ARITHMETIC_OPERATION_1: begin
+        #5;
     end 
 
     ARITHMETIC_OPERATION_2: begin
         regReadEnable <= 0;
         regWriteEnable <= 1;
-        ADR_3 <= 8'b00000010;
+        //ADR_3 <= 8'b00000010;
     end
 
 JMP_0: begin
@@ -355,16 +353,20 @@ JMP_1: begin
 end
 
 CALL_0: begin   
-  if(stack_pointer < 15) begin
+  if(stack_pointer < 16) begin
    pc_stack_reg[stack_pointer] <= PC_current_value;
-   stack_pointer <= stack_pointer + 1'b1;
+   #1
+   stack_pointer <= stack_pointer + 16'b1;
   end
 end
 
 RET_0: begin
     PC_en <= 1;
+    if(stack_pointer > 0) begin
+    stack_pointer <= stack_pointer - 16'b1;
+    #1
     PC_load <= pc_stack_reg[stack_pointer];
-    stack_pointer <= stack_pointer - 1'b1;
+    end else PC_load <=PC_current_value;
 end
 
 READ_0: begin

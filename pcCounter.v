@@ -5,9 +5,7 @@ module pcCounter(
   input wire PC_en, 
   output reg [7:0] PC
 );
-/*initial begin
-PC <= 8'b0;
-end */
+
   always @(posedge clk) begin
     if (PC_en) begin
         PC <= PC_load;           
