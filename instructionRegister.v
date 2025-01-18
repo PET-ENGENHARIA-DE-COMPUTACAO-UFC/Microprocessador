@@ -5,8 +5,8 @@ module InstructionRegister(
   output reg [23:0] instReg,
   output reg ReadyFlag);
 
- reg[7:0] temp[2:0];
  output reg[2:0] counter;
+ reg[7:0] temp[2:0];
 
   parameter delay = 3'b010;
 
@@ -18,15 +18,20 @@ module InstructionRegister(
 
   // Lógica síncrona com delay
   always @(posedge clk) begin
-    if(IR_load) begin
+    if(IR_load == 1 && ReadyFlag ==0) begin
     if (counter < delay) begin
       temp[counter] <= payload;
       counter <= counter + 3'b001;
     end else begin
       instReg <= {temp[00], temp[01], payload};
       ReadyFlag <= 1;
+      counter <= 3'b0;
     end
+    end else if(ReadyFlag == 1) begin
+      ReadyFlag <= 0;
     end
+
+
   end
 
 endmodule

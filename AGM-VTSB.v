@@ -15,7 +15,11 @@ wire PC_inc_wire;
 wire PC_en_wire;
 wire [7:0]current_state_out_wire;
 wire [23:0]command_word_wire;
-
+wire ReadyRegFlag_wire;
+wire IR_load_wire; //Fio de "enable" do IR
+wire [7:0]MAR_instruction_wire; //Fio da instrução lida pelo MAR
+wire MAR_load_wire; //Fio de "enable" do MAR
+wire [7:0]opcode_out;
 // Instantiate the processor module
 processor DUT(
     .clk(clk),
@@ -30,7 +34,12 @@ processor DUT(
     .PC_inc_wire(PC_inc_wire),
     .PC_en_wire(PC_en_wire),
     .current_state_out_wire(current_state_out_wire),
-    .command_word_wire(command_word_wire)
+    .command_word_wire(command_word_wire),
+    .ReadyRegFlag_wire(ReadyRegFlag_wire),
+    .IR_load_wire(IR_load_wire), //Fio de "enable" do IR
+     .MAR_instruction_wire(MAR_instruction_wire), //Fio da instrução lida pelo MAR
+     .MAR_load_wire(MAR_load_wire),
+     .opcode_out(opcode_out)
 );
 
 // Clock generation for clk_in
@@ -48,7 +57,7 @@ initial begin
     #100
     rst = 0;
 
-  #2000
+  #3000
 
 
     // Stop the simulation
@@ -58,8 +67,8 @@ end
 // Monitor key signals
 initial begin
     $monitor(
-        "Time: %0dns | rst: %b | clk: %b | Endereco memoria: %b | dados da memoria: %b | endereco na porta A1: %b | Endereco na porta A2: %b | Endereco na porta A3: %b\n Saida porta A1: %b | Saida na porta A2: %b | PC_inc_wire = %b | PC_en_wire = %b | state = %d | command word = %b\n" , 
-        $time, rst, clk,PC_wire, data_out, ADR_1_wire, ADR_2_wire, ADR_3_wire,RD1_wire,RD2_wire, PC_inc_wire, PC_en_wire, current_state_out_wire, command_word_wire
+        "Time: %0dns | rst: %b | clk: %b | Endereco memoria: %b | dados da memoria: %b | endereco na porta A1: %b | Endereco na porta A2: %b | Endereco na porta A3: %b\n Saida porta A1: %b | Saida na porta A2: %b | PC_inc_wire = %b | PC_en_wire = %b | state = %d | command word = %b\n | RRG = %b | IR_load = %b | MAR_instruction = %b | MAR_Load = %b | opcode = %b \n " , 
+        $time, rst, clk,PC_wire, data_out, ADR_1_wire, ADR_2_wire, ADR_3_wire,RD1_wire,RD2_wire, PC_inc_wire, PC_en_wire, current_state_out_wire, command_word_wire, ReadyRegFlag_wire, IR_load_wire, MAR_instruction_wire, MAR_load_wire, opcode_out
     );
 end
 

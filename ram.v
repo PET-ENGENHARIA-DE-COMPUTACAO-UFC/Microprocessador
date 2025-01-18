@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module ram
 #(
   parameter addr_size = 8,
@@ -22,10 +23,9 @@ module ram
 reg[7:0] ram [0:255];
 
 initial begin
-  $readmemb("binary.mem",ram);
-end
-
-always@(posedge clk)
+  $readmemb("binary.mem",ram); 
+  end
+always@(posedge clk) #5
   begin
     if(rst)
       $readmemb("binary.mem",ram);

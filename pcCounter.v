@@ -10,10 +10,10 @@ PC <= 8'b0;
 end */
   always @(posedge clk) begin
     if (PC_en) begin
-      if (PC_inc) 
-        PC <= PC + 8'b00000001;        
-      else 
         PC <= PC_load;           
+    end
+    if (PC_inc) begin
+        PC <= PC + 8'b00000001;        
     end
   end
 

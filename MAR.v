@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module MAR(
     input MAR_load,
     input clk,
@@ -6,7 +7,8 @@ module MAR(
 );
 
 
-    always@(posedge clk) begin
+    always@(posedge clk) #6
+    begin
         if(MAR_load)begin
             instruction <= data;
         end

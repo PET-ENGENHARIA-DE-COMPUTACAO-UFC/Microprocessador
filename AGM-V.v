@@ -19,14 +19,15 @@ module processor(
     output wire PC_inc_wire,
     output wire PC_en_wire, //Fios de incremento do PC e enable do PC
     output wire [7:0]current_state_out_wire, 
-    output wire [23:0]command_word_wire
+    output wire [23:0]command_word_wire,
+    output wire ReadyRegFlag_wire,
+    output wire IR_load_wire, //Fio de "enable" do IR
+    output wire [7:0]MAR_instruction_wire, //Fio da instrução lida pelo MAR
+    output wire MAR_load_wire, //Fio de "enable" do MAR
+    output wire [7:0]opcode_out
 );
 
 wire [7:0]PC_load_wire; //Fio do sinal de PC load
-
-wire MAR_load_wire; //Fio de "enable" do MAR
-
-wire IR_load_wire; //Fio de "enable" do IR
 
 wire [7:0]write_data_wire; //Fio de dados a serem escritos
 
@@ -40,15 +41,11 @@ wire [7:0]IR_opcode_wire; //Fio da instrução lida pelo MAR
 
 wire [6:0]flag_wire; //Fio da instrução lida pelo MAR
 
-wire ReadyRegFlag_wire; //Fio de confirmação da concatenação da instrução
-
 wire [7:0]mux_result_wire; //Fio do que irá ao write adress
 
 wire [7:0]operation_result_wire; //Fio do resultado da operação aritmética
 
 wire [1:0]Path_Type_wire; //Fio do tipo de circuito
-
-wire [7:0]MAR_instruction_wire; //Fio da instrução lida pelo MAR
 
 //SINAIS DA RAM:
 wire write_en;
@@ -79,12 +76,13 @@ ControlUnit UC(
     .regReadEnable(regReadEnable_wire),
     .Path_Type(Path_Type_wire),
     .rd_en(rd_en),
-    .current_state_out(current_state_out_wire)
+    .current_state_out(current_state_out_wire),
+    .opcode_out(opcode_out)
 );
 
 ALU ArithmeticLogicUnit(
     .operand1(RD1_wire),
-    .operand2(RD1_wire),
+    .operand2(RD2_wire),
     .clk(clk),
     .operation_result(operation_result_wire), //Deverá ser truncado
     .ALU_sel(ALU_sel_wire),
@@ -114,7 +112,7 @@ pcCounter ProgramCounter(
 );
 
 MAR MemoryAdressRegister(
-    .MAR_load(MAR_load),
+    .MAR_load(MAR_load_wire),
     .clk(clk),
     .data(data_out),
     .instruction(MAR_instruction_wire)
