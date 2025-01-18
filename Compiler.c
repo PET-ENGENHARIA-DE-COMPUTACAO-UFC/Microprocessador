@@ -260,6 +260,11 @@ struct OPCODE comparator(char *buffer)
         opcode.parameters = 2;
         return opcode;
     }
+    else if(strcmp(buffer, "READ") == 0){
+        opcode.code = "00011100";
+        opcode.parameters = 1;
+        return opcode;
+    }
     else
     {
         opcode.code = NULL;
