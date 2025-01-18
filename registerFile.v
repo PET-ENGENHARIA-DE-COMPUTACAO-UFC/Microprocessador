@@ -29,6 +29,4 @@ else begin
   RD2 <= 8'b0;
 end
 end
-
-
 endmodule

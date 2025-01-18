@@ -6,7 +6,17 @@
 `include "MAR.v"
 `include "instructionRegister.v"
 `include "registerFile.v"
-module processor();
+module processor(
+    input wire clk,
+    input wire rst,
+    output wire [7:0]rd_adress,
+    output wire [7:0]data_out,
+    output wire [7:0]ADR_1_wire,
+    output wire [7:0]ADR_2_wire,
+    output wire [7:0]ADR_3_wire,
+    output wire [7:0]IR_operand1_wire,
+    output wire [7:0]IR_operand2_wire
+);
 wire clk, rst, clk_in; //Fios de clock e reset
 wire [7:0]PC_load_wire; //Fio do sinal de PC load
 wire PC_inc_wire, PC_en_wire; //Fios de incremento do PC e enable do PC
@@ -14,19 +24,23 @@ wire MAR_load; //Fio de "enable" do MAR
 wire IR_load; //Fio de "enable" do IR
 wire [23:0]command_word_wire; //Fio com a entrada da Control Unit
 wire [7:0]operand1_wire, operand2_wire; //Fios dos operandos da ALU.
-wire [7:0]ADR_1_wire, ADR_2_wire; //Fios de endereço a ser lido
-wire [7:0]ADR_3_wire; //Fios de endereço a ser escrito
 wire [7:0]write_data_wire; //Fio de dados a serem escritos
 wire regWriteEnable_wire; //Fio do enable da escrita
 wire regReadEnable_wire; //Fio do enable da leitura
 wire [7:0]ALU_sel_wire; //Fio do sinal de controle da ALU
-wire [7:0]PC_adress_wire; //Fio do endereço apontado pelo PC
-wire [7:0]RAM_instruction_wire; //Fio da instrução lida pelo MAR
+
+assign outADR_1 = ADR_1_wire
+
 wire [7:0]IR_opcode_wire; //Fio da instrução lida pelo MAR
-wire [7:0]IR_operand1_wire; //Fio da instrução lida pelo MAR
-wire [7:0]IR_operand2_wire; //Fio da instrução lida pelo MAR
 wire [2:0]compare_result_wire; //Fio da instrução lida pelo MAR
 wire [6:0]flag_wire; //Fio da instrução lida pelo MAR
+
+//SINAIS DA RAM:
+wire write_en;
+wire rd_en;
+reg [7:0]data_in;
+reg [7:0]write_adress;
+
 
 //timer tmp(.clk_out(clk), .clk_in(clk_in),.rst(rst));
 
@@ -65,25 +79,25 @@ ALU ArithmeticLogicUnit(
 ram RandomAcessMemory(
     .clk(clk),
     .rst(rst),
-    .write_en(1'b0),
-    .write_adress(8'b0),
-    .data_in(8'b0),
-    .rd_en(1'b1),
-    .rd_adress(PC_adress_wire),
-    .data_out(RAM_instruction_wire)
+    .write_en(write_en),
+    .write_adress(write_adress),
+    .data_in(data_in),
+    .rd_en(rd_en),
+    .rd_adress(rd_adress),
+    .data_out(data_out)
 );
 
 pcCounter ProgramCounter(
     .PC_load(PC_load_wire),
     .PC_inc(PC_inc_wire),
     .PC_en(PC_en_wire),
-    .PC(PC_adress_wire)
+    .PC(rd_adress)
 );
 
 MAR MemoryAdressRegister(
     .MAR_load(MAR_load),
     .clk(clk),
-    .data(RAM_instruction_wire),
+    .data(rd_adress),
     .instruction(IR_opcode_wire)
 );
 

@@ -21,10 +21,14 @@ module ram
 
 reg[7:0] ram [255:0];
 
+initial begin
+  $readmemb("binary.mem",ram);
+end
+
 always@(posedge clk)
   begin
     if(rst)
-      ram[write_adress]<= 0;
+      $readmemb("binary.mem",ram);
     else
       begin 
         if(write_en)
