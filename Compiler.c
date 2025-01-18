@@ -271,7 +271,7 @@ struct OPCODE comparator(char *buffer)
 int main()
 {
     FILE *instructions = fopen("instructions.txt", "r");    
-    FILE *binary = fopen("binary.txt", "w");
+    FILE *binary = fopen("binary.mem", "w");
     char *CurrentLine = malloc(100 * sizeof(char));
 
     if (instructions == NULL)
