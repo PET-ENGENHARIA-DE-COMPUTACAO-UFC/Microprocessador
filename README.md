@@ -3,7 +3,7 @@
 O projeto do processador foi pelos alunos do PET Eng Comp UFC em colaboração com um amigo dos membros.
 
 ## Como usar
-É válido ressaltar que o código que deve ser usado deve ser o da branch "Gabriel_Amorim"
+É válido ressaltar que o código que deve ser usado deve ser o da branch "Gabriel_Amorim" <br>
 A lógica do Assembly é simples e funciona linha a linha, em que você adiciona a instrução (qualquer uma das 27 listadas na tabela de opcodes) e a quantidade de operandos necessários para essa operação, sendo esses operandos "A" e/ou "B". O arquivo deverá ser chamado **instructions.txt**.
 
 Segue um exemplo de entrada:
