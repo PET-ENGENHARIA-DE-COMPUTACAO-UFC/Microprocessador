@@ -24,7 +24,8 @@ module processor(
     output wire IR_load_wire, //Fio de "enable" do IR
     output wire [7:0]MAR_instruction_wire, //Fio da instrução lida pelo MAR
     output wire MAR_load_wire, //Fio de "enable" do MAR
-    output wire [7:0]opcode_out
+    output wire [7:0]opcode_out,
+    output wire [1:0]Path_Type_wire //Fio do tipo de circuito
 );
 
 wire [7:0]PC_load_wire; //Fio do sinal de PC load
@@ -44,8 +45,6 @@ wire [6:0]flag_wire; //Fio da instrução lida pelo MAR
 wire [7:0]mux_result_wire; //Fio do que irá ao write adress
 
 wire [7:0]operation_result_wire; //Fio do resultado da operação aritmética
-
-wire [1:0]Path_Type_wire; //Fio do tipo de circuito
 
 //SINAIS DA RAM:
 wire write_en;

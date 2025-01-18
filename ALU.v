@@ -1,4 +1,4 @@
-`timescale 1ps/1ps
+`timescale 1ns/1ps
 `include "arithmetic/adder.v"
 `include "arithmetic/decrement.v"
 `include "arithmetic/divisor.v"
@@ -173,7 +173,8 @@ ror ror_gate(
     .y(ror_result)
 );
 
-always@(posedge clk) begin
+always@(posedge clk) #7
+begin
     case(ALU_sel)
 
     //Caso do somador

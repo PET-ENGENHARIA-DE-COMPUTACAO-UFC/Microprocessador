@@ -20,6 +20,7 @@ wire IR_load_wire; //Fio de "enable" do IR
 wire [7:0]MAR_instruction_wire; //Fio da instrução lida pelo MAR
 wire MAR_load_wire; //Fio de "enable" do MAR
 wire [7:0]opcode_out;
+wire [1:0]Path_Type_wire; //Fio do tipo de circuito
 // Instantiate the processor module
 processor DUT(
     .clk(clk),
@@ -39,7 +40,8 @@ processor DUT(
     .IR_load_wire(IR_load_wire), //Fio de "enable" do IR
      .MAR_instruction_wire(MAR_instruction_wire), //Fio da instrução lida pelo MAR
      .MAR_load_wire(MAR_load_wire),
-     .opcode_out(opcode_out)
+     .opcode_out(opcode_out),
+     .Path_Type_wire(Path_Type_wire)
 );
 
 // Clock generation for clk_in
@@ -67,8 +69,8 @@ end
 // Monitor key signals
 initial begin
     $monitor(
-        "Time: %0dns | rst: %b | clk: %b | Endereco memoria: %b | dados da memoria: %b | endereco na porta A1: %b | Endereco na porta A2: %b | Endereco na porta A3: %b\n Saida porta A1: %b | Saida na porta A2: %b | PC_inc_wire = %b | PC_en_wire = %b | state = %d | command word = %b\n | RRG = %b | IR_load = %b | MAR_instruction = %b | MAR_Load = %b | opcode = %b \n " , 
-        $time, rst, clk,PC_wire, data_out, ADR_1_wire, ADR_2_wire, ADR_3_wire,RD1_wire,RD2_wire, PC_inc_wire, PC_en_wire, current_state_out_wire, command_word_wire, ReadyRegFlag_wire, IR_load_wire, MAR_instruction_wire, MAR_load_wire, opcode_out
+        "Time: %0dns | rst: %b | clk: %b | Endereco memoria: %b | dados da memoria: %b | endereco na porta A1: %b | Endereco na porta A2: %b | Endereco na porta A3: %b\n Saida porta A1: %b | Saida na porta A2: %b | PC_inc_wire = %b | PC_en_wire = %b | state = %d | command word = %b\n | RRG = %b | IR_load = %b | MAR_instruction = %b | MAR_Load = %b | opcode = %b \n | Circuit Type = %b" , 
+        $time, rst, clk,PC_wire, data_out, ADR_1_wire, ADR_2_wire, ADR_3_wire,RD1_wire,RD2_wire, PC_inc_wire, PC_en_wire, current_state_out_wire, command_word_wire, ReadyRegFlag_wire, IR_load_wire, MAR_instruction_wire, MAR_load_wire, opcode_out, Path_Type_wire
     );
 end
 

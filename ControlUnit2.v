@@ -2,7 +2,7 @@
 module ControlUnit(input wire[23:0] command_word, input wire clk, input wire rst, input wire ReadyRegFlag, input wire [7:0]PC_current_value, output reg[7:0]PC_load, output reg PC_inc, output reg PC_en, output reg MAR_load, output reg IR_load, output reg [7:0]write_data, output reg[7:0]ALU_sel, output reg [7:0]ADR_1, output reg [7:0]ADR_2, output reg [7:0]ADR_3, output reg regWriteEnable, output reg regReadEnable, output reg [1:0]Path_Type, output reg rd_en, output reg [7:0]current_state_out, output reg[7:0]opcode_out);
 
 //FSM Encoding
-localparam FETCH_0 = 8'b0, FETCH_1 = 8'b00000001, FETCH_2 = 8'b00000011, DECODE = 4, STR_IMM_0 = 5, STR_DIR_0 = 6, STR_DIR_1 = 7, LOA_IMM_0 = 8, LOA_DIR_0 = 9, LOA_DIR_1 = 10, MOV_0 = 11, MOV_1 = 12, ARITHMETIC_OPERATION_0 = 13, ARITHMETIC_OPERATION_1 = 14, ARITHMETIC_OPERATION_2 = 15, JMP_0 = 16, JMP_1 = 17, CALL_0 = 18, CALL_1 = 19, RET_0 = 20;
+localparam FETCH_0 = 8'b0, FETCH_1 = 8'b00000001, FETCH_2 = 8'b00000011, DECODE = 4, STR_IMM_0 = 5, STR_DIR_0 = 6, STR_DIR_1 = 7, LOA_IMM_0 = 8, LOA_DIR_0 = 9, LOA_DIR_1 = 10, MOV_0 = 11, MOV_1 = 12, ARITHMETIC_OPERATION_0 = 13, ARITHMETIC_OPERATION_1 = 14, ARITHMETIC_OPERATION_2 = 15, JMP_0 = 16, JMP_1 = 17, CALL_0 = 18, CALL_1 = 19, RET_0 = 20, READ_0 = 21;
 
 //OPCODE Encoding
 localparam 
@@ -76,6 +76,7 @@ case(current_state)
     DECODE: begin
             #5
             opcode_out <= command_word[23:16];
+            IR_load <= 0;
             #5
             PC_inc <= 0;
             if(command_word[23:16] == STR_IMM) begin
@@ -200,7 +201,7 @@ case(current_state)
               Path_Type <= memory_path;
             end
             else if(command_word[23:16] == READ)   begin
-              next_state <= RET_0;
+              next_state <= READ_0;
               Path_Type <= memory_path;
             end
 
@@ -227,6 +228,8 @@ case(current_state)
     JMP_1: next_state <= FETCH_0;
 
     CALL_0: next_state <= FETCH_0;
+    
+    READ_0: next_state <= FETCH_0;
 
 endcase
 
@@ -331,14 +334,15 @@ end
         ADR_2 <= command_word[7:0];
     end
 
-    ARITHMETIC_OPERATION_1: begin
+    ARITHMETIC_OPERATION_1: #5
+    begin
         
-    end
+    end 
 
     ARITHMETIC_OPERATION_2: begin
         regReadEnable <= 0;
         regWriteEnable <= 1;
-        ADR_3 <= ADR_3;
+        ADR_3 <= 8'b00000010;
     end
 
 JMP_0: begin
@@ -361,6 +365,16 @@ RET_0: begin
     PC_en <= 1;
     PC_load <= pc_stack_reg[stack_pointer];
     stack_pointer <= stack_pointer - 1'b1;
+end
+
+READ_0: begin
+    regReadEnable <= 1'b1;
+    regWriteEnable <= 1'b0;
+    #10
+
+    ADR_1 <= command_word[15:8];
+    ADR_2 <= command_word[15:8];
+
 end
 
 default: begin
